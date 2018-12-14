@@ -30,13 +30,11 @@ num_filters2 = 36         # There are 36 of these filters.
 fc_size = 128             # Number of neurons in fully-connected layer.
 
 # In[4]: # ## Load Data
-from mnist import MNIST
-data = MNIST(data_dir="data/MNIST/")
-
 # In[5]: # The MNIST data-set has now been loaded and consists of 70.000 images and class-numbers for the images. The data-set is split into 3 mutually exclusive sub-sets. We will only use the training and test-sets in this tutorial.
-from mnist import MNIST
-data = MNIST(data_dir="data/MNIST/")
+from common.mnist_common import get_mnist
+data = get_mnist()
 
+img_size = data.img_size # The number of pixels in each dimension of an image.
 img_size_flat = data.img_size_flat # The images are stored in one-dimensional arrays of this length.
 img_shape = data.img_shape # Tuple with height and width of images used to reshape arrays.
 num_classes = data.num_classes # Number of classes, one class for each of 10 digits.
@@ -102,12 +100,9 @@ def new_fc_layer(input,          # The previous layer.
                  use_relu=True): # Use Rectified Linear Unit (ReLU)?
     weights = new_weights(shape=[num_inputs, num_outputs])
     biases = new_biases(length=num_outputs)
-
     layer = tf.matmul(input, weights) + biases
-
     if use_relu:
         layer = tf.nn.relu(layer)
-
     return layer
 
 # In[14]: # ### Placeholder variables
@@ -133,7 +128,6 @@ layer_conv2, weights_conv2 =     new_conv_layer(input=layer_conv1,
 # In[22]: # ### Flatten Layer
 layer_flat, num_features = flatten_layer(layer_conv2)
 
-
 # In[25]: # ### Fully-Connected Layer 1
 layer_fc1 = new_fc_layer(input=layer_flat,
                          num_inputs=num_features,
@@ -151,7 +145,6 @@ y_pred = tf.nn.softmax(layer_fc2)
 y_pred_cls = tf.argmax(y_pred, axis=1)
 
 # In[31]: # ### Cost-function to be optimized
-
 cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=layer_fc2,
                                                         labels=y_true)
 cost = tf.reduce_mean(cross_entropy)
@@ -179,12 +172,9 @@ def optimize(num_iterations):
 
     for i in range(total_iterations, total_iterations + num_iterations):
         x_batch, y_true_batch, _ = data.random_batch(batch_size=train_batch_size)
-
         feed_dict_train = {x: x_batch,
                            y_true: y_true_batch}
-
         session.run(optimizer, feed_dict=feed_dict_train)
-
         if i % 100 == 0:
             acc = session.run(accuracy, feed_dict=feed_dict_train)
             msg = "Optimization Iteration: {0:>6}, Training Accuracy: {1:>6.1%}"
@@ -225,23 +215,18 @@ def plot_confusion_matrix(cls_pred):
 
 # In[42]: # ### Helper-function for showing the performance
 test_batch_size = 256
-
 def print_test_accuracy(show_example_errors=False,
                         show_confusion_matrix=False):
-
     num_test = data.num_test
     cls_pred = np.zeros(shape=num_test, dtype=np.int)
     i = 0
     while i < num_test:
         j = min(i + test_batch_size, num_test)
         images = data.x_test[i:j, :]
-
         labels = data.y_test[i:j, :]
         feed_dict = {x: images,
                      y_true: labels}
-
         cls_pred[i:j] = session.run(y_pred_cls, feed_dict=feed_dict)
-
         i = j
 
     cls_true = data.y_test_cls
@@ -277,8 +262,7 @@ print_test_accuracy(show_example_errors=True)
 
 # In[50]: # ## Performance after 10,000 optimization iterations
 optimize(num_iterations=9000) # We performed 1000 iterations above.
-print_test_accuracy(show_example_errors=True,
-                    show_confusion_matrix=True)
+print_test_accuracy(show_example_errors=True, show_confusion_matrix=True)
 
 # In[52]: # ## Visualization of Weights and Layers
 
@@ -291,9 +275,7 @@ def plot_conv_weights(weights, input_channel=0):
     w_max = np.max(w)
 
     num_filters = w.shape[3]
-
     num_grids = math.ceil(math.sqrt(num_filters))
-    
     fig, axes = plt.subplots(num_grids, num_grids)
 
     for i, ax in enumerate(axes.flat):
@@ -301,14 +283,12 @@ def plot_conv_weights(weights, input_channel=0):
             img = w[:, :, input_channel, i]
             ax.imshow(img, vmin=w_min, vmax=w_max,
                       interpolation='nearest', cmap='seismic')
-
         ax.set_xticks([])
         ax.set_yticks([])
 
     plt.show()
 
 # In[53]: # ### Helper-function for plotting the output of a convolutional layer
-
 def plot_conv_layer(layer, image):
     feed_dict = {x: [image]}
     values = session.run(layer, feed_dict=feed_dict)
@@ -320,7 +300,6 @@ def plot_conv_layer(layer, image):
         if i<num_filters:
             img = values[0, :, :, i]
             ax.imshow(img, interpolation='nearest', cmap='binary')
-        
         ax.set_xticks([])
         ax.set_yticks([])
     

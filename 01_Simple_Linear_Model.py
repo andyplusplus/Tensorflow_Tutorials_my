@@ -12,21 +12,22 @@ from sklearn.metrics import confusion_matrix
 
 
 # In[3]: # ## Load Data # The MNIST data-set is about 12 MB and will be downloaded automatically if it is not located in the given path.
-from mnist import MNIST
-data = MNIST(data_dir="data/MNIST/")
+from common.mnist_common import get_mnist
+data = get_mnist()
 
+img_size = data.img_size # The number of pixels in each dimension of an image.
 img_size_flat = data.img_size_flat # The images are stored in one-dimensional arrays of this length.
 img_shape = data.img_shape # Tuple with height and width of images used to reshape arrays.
 num_classes = data.num_classes # Number of classes, one class for each of 10 digits.
 num_channels = data.num_channels # Number of colour channels for the images: 1 channel for gray-scale.
 
-# In[8]: # ### Helper-function for plotting images # Function used to plot 9 images in a 3x3 grid, and writing the true and predicted classes below each image.
-from common.plot_helper import plot_images
-
 # In[9]: # ### Plot a few images to see if data is correct
 images = data.x_test[0:9]
 cls_true = data.y_test_cls[0:9]
+from common.plot_helper import plot_images # In[8]: # ### Helper-function for plotting images # Function used to plot 9 images in a 3x3 grid, and writing the true and predicted classes below each image.
 plot_images(images=images, cls_true=cls_true)
+
+
 
 
 # ## TensorFlow Graph    # ### Placeholder variables
@@ -57,16 +58,15 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 
 
-# ## TensorFlow Run
 
+# ## TensorFlow Run
 # In[23]: # ### Create TensorFlow session
 session = tf.Session()
 session.run(tf.global_variables_initializer())
 
 # In[25]: # ### Helper-function to perform optimization iterations
-batch_size = 100
-
 # In[26]: # Function for performing a number of optimization iterations so as to gradually improve the `weights` and `biases` of the model. In each iteration, a new batch of data is selected from the training-set and then TensorFlow executes the optimizer using those training samples.
+batch_size = 100
 def optimize(num_iterations):
     for i in range(num_iterations):
         x_batch, y_true_batch, _ = data.random_batch(batch_size=batch_size)
@@ -80,10 +80,12 @@ feed_dict_test = {x: data.x_test,
                   y_true: data.y_test,
                   y_true_cls: data.y_test_cls}
 
+
 def print_accuracy():
     # Use TensorFlow to compute the accuracy.
     acc = session.run(accuracy, feed_dict=feed_dict_test)
     print("Accuracy on test-set: {0:.1%}".format(acc))
+
 
 # In[29]: # Function for printing and plotting the confusion matrix using scikit-learn.
 def print_confusion_matrix():
@@ -106,15 +108,10 @@ def print_confusion_matrix():
 
 # In[30]: # Function for plotting examples of images from the test-set that have been mis-classified.
 def plot_example_errors():
-    # Use TensorFlow to get a list of boolean values
-    # whether each test-image has been correctly classified,
-    # and a list for the predicted class of each image.
     correct, cls_pred = session.run([correct_prediction, y_pred_cls],
                                     feed_dict=feed_dict_test)
-
     incorrect = (correct == False)
 
-    # Get the images from the test-set that have been incorrectly classified.
     images = data.x_test[incorrect]
     cls_pred = cls_pred[incorrect]
     cls_true = data.y_test_cls[incorrect]
@@ -126,39 +123,19 @@ def plot_example_errors():
 
 # In[31]: # ### Helper-function to plot the model weights # Function for plotting the `weights` of the model. 10 images are plotted, one for each digit that the model is trained to recognize.
 def plot_weights():
-    # Get the values for the weights from the TensorFlow variable.
     w = session.run(weights)
-    
-    # Get the lowest and highest values for the weights.
-    # This is used to correct the colour intensity across
-    # the images so they can be compared with each other.
     w_min = np.min(w)
     w_max = np.max(w)
-
-    # Create figure with 3x4 sub-plots,
-    # where the last 2 sub-plots are unused.
     fig, axes = plt.subplots(3, 4)
     fig.subplots_adjust(hspace=0.3, wspace=0.3)
 
     for i, ax in enumerate(axes.flat):
-        # Only use the weights for the first 10 sub-plots.
         if i<10:
-            # Get the weights for the i'th digit and reshape it.
-            # Note that w.shape == (img_size_flat, 10)
             image = w[:, i].reshape(img_shape)
-
-            # Set the label for the sub-plot.
             ax.set_xlabel("Weights: {0}".format(i))
-
-            # Plot the image.
             ax.imshow(image, vmin=w_min, vmax=w_max, cmap='seismic')
-
-        # Remove ticks from each sub-plot.
         ax.set_xticks([])
         ax.set_yticks([])
-        
-    # Ensure the plot is shown correctly with multiple plots
-    # in a single Notebook cell.
     plt.show()
 
 # In[32]: # ## Performance before any optimization # The accuracy on the test-set is 9.8%. This is because the model has only been initialized and not optimized at all, so it always predicts that the image shows a zero digit, as demonstrated in the plot below, and it turns out that 9.8% of the images in the test-set happens to be zero digits.
@@ -169,10 +146,7 @@ plot_example_errors()
 optimize(num_iterations=1)
 print_accuracy()
 plot_example_errors()
-
-# In[37]:
 plot_weights()
-
 
 # In[38]: # ## Performance after 10 optimization iterations # We have already performed 1 iteration.
 optimize(num_iterations=9)
