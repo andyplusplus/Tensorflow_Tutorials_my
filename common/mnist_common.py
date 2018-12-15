@@ -9,3 +9,14 @@ def get_mnist(path="datasets/mnist/"):
     print("- Validation-set:\t{}".format(data.num_val))
     print("- Test-set:\t\t{}".format(data.num_test))
     return data
+
+
+from tensorflow.examples.tutorials.mnist import input_data
+def get_mnist_4_prettyTensor(path="datasets/mnist/"):
+    data = input_data.read_data_sets('data/mnist/', one_hot=True)
+
+    print("Size of:")
+    print("- Training-set:\t\t{}".format(len(data.train.labels)))
+    print("- Test-set:\t\t{}".format(len(data.test.labels)))
+    print("- Validation-set:\t{}".format(len(data.validation.labels)))
+    return data

@@ -28,9 +28,6 @@
 # In[1]:
 
 
-from IPython.display import Image
-Image('images/02_network_flowchart.png')
-
 
 # The input image is processed in the first convolutional layer using the filter-weights. This results in 16 new images, one for each filter in the convolutional layer. The images are also down-sampled so the image resolution is decreased from 28x28 to 14x14.
 # 
@@ -49,7 +46,6 @@ Image('images/02_network_flowchart.png')
 # In[2]:
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
