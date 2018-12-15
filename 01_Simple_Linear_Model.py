@@ -36,21 +36,26 @@ x = tf.placeholder(tf.float32, [None, img_size_flat])    # input image
 y_true = tf.placeholder(tf.float32, [None, num_classes]) # onehot array
 y_true_cls = tf.placeholder(tf.int64, [None])            # argmax
 
+
 # In[13]: # ### Variables to be optimized
 weights = tf.Variable(tf.zeros([img_size_flat, num_classes]))
 biases = tf.Variable(tf.zeros([num_classes]))
+
 
 # In[15]: # ### Model
 logits = tf.matmul(x, weights) + biases
 y_pred = tf.nn.softmax(logits)
 y_pred_cls = tf.argmax(y_pred, axis=1)
 
-# In[18]: # ### Cost-function to be optimized
+
+# In[18]: # ### Cost-function to be optimized   TOBEHERE
 cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(logits=logits, labels=y_true)
 cost = tf.reduce_mean(cross_entropy)
 
+
 # In[20]: # ### Optimization method
 optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.5).minimize(cost)
+
 
 # In[21]: # ### Performance measures
 correct_prediction = tf.equal(y_pred_cls, y_true_cls)
@@ -64,16 +69,15 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 session = tf.Session()
 session.run(tf.global_variables_initializer())
 
-# In[25]: # ### Helper-function to perform optimization iterations
-# In[26]: # Function for performing a number of optimization iterations so as to gradually improve the `weights` and `biases` of the model. In each iteration, a new batch of data is selected from the training-set and then TensorFlow executes the optimizer using those training samples.
-batch_size = 100
+# In[25]: # ### Helper-function to perform optimization iterations # In[26]: # Function for performing a number of optimization iterations so as to gradually improve the `weights` and `biases` of the model. In each iteration, a new batch of data is selected from the training-set and then TensorFlow executes the optimizer using those training samples.
 def optimize(num_iterations):
     for i in range(num_iterations):
+        batch_size = 100
         x_batch, y_true_batch, _ = data.random_batch(batch_size=batch_size)
         feed_dict_train = {x: x_batch,
                            y_true: y_true_batch}
-
         session.run(optimizer, feed_dict=feed_dict_train)
+
 
 # In[27]: # ### Helper-functions to show performance
 feed_dict_test = {x: data.x_test,
@@ -170,7 +174,7 @@ session.close()
 # These are a few suggestions for exercises that may help improve your skills with TensorFlow. It is important to get hands-on experience with TensorFlow in order to learn how to use it properly.
 # You may want to backup this Notebook before making any changes.
 # * Change the learning-rate for the optimizer.
-# * Change the optimizer to e.g. `AdagradOptimizer` or `AdamOptimizer`.
+# * Change the optimizer to e.g. `AdagradOptimizer` or `AdamOptimizer`. TOBEHERE
 # * Change the batch-size to e.g. 1 or 1000.
 # * How do these changes affect the performance?
 # * Do you think these changes will have the same effect (if any) on other classification problems and mathematical models?

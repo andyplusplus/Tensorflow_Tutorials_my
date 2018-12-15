@@ -1,37 +1,8 @@
 # # TensorFlow Tutorial #03
 # # PrettyTensor
-# / [GitHub](https://github.com/Hvass-Labs/TensorFlow-Tutorials) / [Videos on YouTube](https://www.youtube.com/playlist?list=PL9Hr9sNUjfsmEu1ZniY0XpHSzl5uihcXZ)
 
-# ## WARNING!
-# **This tutorial does not work with TensorFlow v. 1.9 due to the PrettyTensor builder API apparently no longer being updated and supported by the Google Developers. It is recommended that you use the _Keras API_ instead, see Tutorial #03-C.**
-
-# ## Introduction
-# The previous tutorial showed how to implement a Convolutional Neural Network in TensorFlow, which required low-level knowledge of how TensorFlow works. It was complicated and easy to make mistakes.
-# This tutorial shows how to use the add-on package for TensorFlow called [PrettyTensor](https://github.com/google/prettytensor), which is also developed by Google. PrettyTensor provides much simpler ways of constructing Neural Networks in TensorFlow, thus allowing us to focus on the idea we wish to implement and not worry so much about low-level implementation details. This also makes the source-code much shorter and easier to read and modify.
-# Most of the source-code in this tutorial is identical to Tutorial #02 except for the graph-construction which is now done using PrettyTensor, as well as some other minor changes.
-# This tutorial builds directly on Tutorial #02 and it is recommended that you study that tutorial first if you are new to TensorFlow. You should also be familiar with basic linear algebra, Python and the Jupyter Notebook editor.
-
-# ## Flowchart
-
-# The following chart shows roughly how the data flows in the Convolutional Neural Network that is implemented below. See the previous tutorial for a more detailed description of convolution.
-
-# In[1]:
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-from IPython.display import Image
-Image('images/02_network_flowchart.png')
-
-# The input image is processed in the first convolutional layer using the filter-weights. This results in 16 new images, one for each filter in the convolutional layer. The images are also down-sampled so the image resolution is decreased from 28x28 to 14x14.
-# These 16 smaller images are then processed in the second convolutional layer. We need filter-weights for each of these 16 channels, and we need filter-weights for each output channel of this layer. There are 36 output channels so there are a total of 16 x 36 = 576 filters in the second convolutional layer. The resulting images are down-sampled again to 7x7 pixels.
-# The output of the second convolutional layer is 36 images of 7x7 pixels each. These are then flattened to a single vector of length 7 x 7 x 36 = 1764, which is used as the input to a fully-connected layer with 128 neurons (or elements). This feeds into another fully-connected layer with 10 neurons, one for each of the classes, which is used to determine the class of the image, that is, which number is depicted in the image.
-# The convolutional filters are initially chosen at random, so the classification is done randomly. The error between the predicted and true class of the input image is measured as the so-called cross-entropy. The optimizer then automatically propagates this error back through the Convolutional Network using the chain-rule of differentiation and updates the filter-weights so as to improve the classification error. This is done iteratively thousands of times until the classification error is sufficiently low.
-# These particular filter-weights and intermediate images are the results of one optimization run and may look different if you re-run this Notebook.
-# Note that the computation in TensorFlow is actually done on a batch of images instead of a single image, which makes the computation more efficient. This means the flowchart actually has one more data-dimension when implemented in TensorFlow.
-
-# ## Imports
-
-# In[2]:
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
