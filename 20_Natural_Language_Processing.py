@@ -130,7 +130,7 @@ tokenizer = Tokenizer(num_words=num_words)
 # Note that we fit the tokenizer on the entire data-set so it gathers words from both the training- and test-data. This is OK as we are merely building a vocabulary and want it to be as complete as possible. The actual neural network will of course only be trained on the training-set.
 
 # In[15]:
-get_ipython().run_cell_magic('time', '', 'tokenizer.fit_on_texts(data_text)')
+# get_ipython().run_cell_magic('time', '', 'tokenizer.fit_on_texts(data_text)')
 
 # If you want to use the entire vocabulary then set `num_words=None` above, and then it will automatically be set to the vocabulary-size here. (This is because of Keras' somewhat awkward implementation.)
 
@@ -318,13 +318,13 @@ model.summary()
 # We can now train the model. Note that we are using the data-set with the padded sequences. We use 5% of the training-set as a small validation-set, so we have a rough idea whether the model is generalizing well or if it is perhaps over-fitting to the training-set.
 
 # In[48]:
-get_ipython().run_cell_magic('time', '', 'model.fit(x_train_pad, y_train,\n          validation_split=0.05, epochs=3, batch_size=64)')
+# get_ipython().run_cell_magic('time', '', 'model.fit(x_train_pad, y_train,\n          validation_split=0.05, epochs=3, batch_size=64)')
 
 # ## Performance on Test-Set
 # Now that the model has been trained we can calculate its classification accuracy on the test-set.
 
 # In[49]:
-get_ipython().run_cell_magic('time', '', 'result = model.evaluate(x_test_pad, y_test)')
+# get_ipython().run_cell_magic('time', '', 'result = model.evaluate(x_test_pad, y_test)')
 
 # In[50]:
 print("Accuracy: {0:.2%}".format(result[1]))
@@ -333,7 +333,7 @@ print("Accuracy: {0:.2%}".format(result[1]))
 # In order to show an example of mis-classified text, we first calculate the predicted sentiment for the first 1000 texts in the test-set.
 
 # In[51]:
-get_ipython().run_cell_magic('time', '', 'y_pred = model.predict(x=x_test_pad[0:1000])\ny_pred = y_pred.T[0]')
+# get_ipython().run_cell_magic('time', '', 'y_pred = model.predict(x=x_test_pad[0:1000])\ny_pred = y_pred.T[0]')
 
 # These predicted numbers fall between 0.0 and 1.0. We use a cutoff / threshold and say that all values above 0.5 are taken to be 1.0 and all values below 0.5 are taken to be 0.0. This gives us a predicted "class" of either 0.0 or 1.0.
 

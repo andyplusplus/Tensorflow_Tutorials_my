@@ -238,12 +238,12 @@ class TokenizerWrap(Tokenizer):
 # Now create a tokenizer for the source-language. Note that we pad zeros at the beginning ('pre') of the sequences. We also reverse the sequences of tokens because the research literature suggests that this might improve performance, because the last words seen by the encoder match the first words produced by the decoder, so short-term dependencies are supposedly modelled more accurately.
 
 # In[20]:
-get_ipython().run_cell_magic('time', '', "tokenizer_src = TokenizerWrap(texts=data_src,\n                              padding='pre',\n                              reverse=True,\n                              num_words=num_words)")
+# get_ipython().run_cell_magic('time', '', "tokenizer_src = TokenizerWrap(texts=data_src,\n                              padding='pre',\n                              reverse=True,\n                              num_words=num_words)")
 
 # Now create the tokenizer for the destination language. We need a tokenizer for both the source- and destination-languages because their vocabularies are different. Note that this tokenizer does not reverse the sequences and it pads zeros at the end ('post') of the arrays.
 
 # In[21]:
-get_ipython().run_cell_magic('time', '', "tokenizer_dest = TokenizerWrap(texts=data_dest,\n                               padding='post',\n                               reverse=False,\n                               num_words=num_words)")
+# get_ipython().run_cell_magic('time', '', "tokenizer_dest = TokenizerWrap(texts=data_dest,\n                               padding='post',\n                               reverse=False,\n                               num_words=num_words)")
 
 # Define convenience variables for the padded token sequences. These are just 2-dimensional numpy arrays of integer-tokens.
 # Note that the sequence-lengths are different for the source and destination languages. This is because texts with the same meaning may have different numbers of words in the two languages. 

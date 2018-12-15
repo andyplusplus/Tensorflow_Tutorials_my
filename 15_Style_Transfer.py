@@ -20,8 +20,8 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from IPython.display import Image, display
-Image('images/15_style_transfer_flowchart.png')
+# from IPython.display import Image, display
+# Image('images/15_style_transfer_flowchart.png')
 
 # ## Imports
 
@@ -501,7 +501,7 @@ style_layer_ids = list(range(13))
 # This can be very slow on a CPU!
 
 # In[21]:
-get_ipython().run_cell_magic('time', '', 'img = style_transfer(content_image=content_image,\n                     style_image=style_image,\n                     content_layer_ids=content_layer_ids,\n                     style_layer_ids=style_layer_ids,\n                     weight_content=1.5,\n                     weight_style=10.0,\n                     weight_denoise=0.3,\n                     num_iterations=60,\n                     step_size=10.0)')
+# get_ipython().run_cell_magic('time', '', 'img = style_transfer(content_image=content_image,\n                     style_image=style_image,\n                     content_layer_ids=content_layer_ids,\n                     style_layer_ids=style_layer_ids,\n                     weight_content=1.5,\n                     weight_style=10.0,\n                     weight_denoise=0.3,\n                     num_iterations=60,\n                     step_size=10.0)')
 
 # ## Conclusion
 # This tutorial showed the basic idea of using neural networks for combining the content and style of two images. The results were unfortunately not as pretty as some of the systems that are commercially available, such as [DeepArt](http://www.deepart.io) which was developed by some of the pioneers in these techniques. The reason is unclear. Perhaps we simply need more computational power so we can perform more optimization iterations with smaller step-sizes and for higher-resolution images. Or perhaps we need to use a more sophisticated optimization method. The exercises below give suggestions that may improve the quality and you are encouraged to try them.

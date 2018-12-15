@@ -319,12 +319,12 @@ def process_images_val():
 # Process all images in the training-set and save the transfer-values to a cache-file. This took about 30 minutes to process on a GTX 1070 GPU.
 
 # In[24]:
-get_ipython().run_cell_magic('time', '', 'transfer_values_train = process_images_train()\nprint("dtype:", transfer_values_train.dtype)\nprint("shape:", transfer_values_train.shape)')
+# get_ipython().run_cell_magic('time', '', 'transfer_values_train = process_images_train()\nprint("dtype:", transfer_values_train.dtype)\nprint("shape:", transfer_values_train.shape)')
 
 # Process all images in the validation-set and save the transfer-values to a cache-file. This took about 90 seconds to process on a GTX 1070 GPU.
 
 # In[25]:
-get_ipython().run_cell_magic('time', '', 'transfer_values_val = process_images_val()\nprint("dtype:", transfer_values_val.dtype)\nprint("shape:", transfer_values_val.shape)')
+# get_ipython().run_cell_magic('time', '', 'transfer_values_val = process_images_val()\nprint("dtype:", transfer_values_val.dtype)\nprint("shape:", transfer_values_val.shape)')
 
 # ## Tokenizer
 # Neural Networks cannot work directly on text-data. We use a two-step process to convert text into numbers that can be used in a neural network. The first step is to convert text-words into so-called integer-tokens. The second step is to convert integer-tokens into vectors of floating-point numbers using a so-called embedding-layer. See Tutorial #20 for a more detailed explanation.
@@ -431,7 +431,7 @@ class TokenizerWrap(Tokenizer):
 # Now create a tokenizer using all the captions in the training-data. Note that we use the flattened list of captions to create the tokenizer because it cannot take a list-of-lists.
 
 # In[34]:
-get_ipython().run_cell_magic('time', '', 'tokenizer = TokenizerWrap(texts=captions_train_flat,\n                          num_words=num_words)')
+# get_ipython().run_cell_magic('time', '', 'tokenizer = TokenizerWrap(texts=captions_train_flat,\n                          num_words=num_words)')
 
 # Get the integer-token for the start-marker (the word "ssss"). We will need this further below.
 
@@ -448,7 +448,7 @@ token_end
 # Convert all the captions from the training-set to sequences of integer-tokens. We get a list-of-list as a result.
 
 # In[37]:
-get_ipython().run_cell_magic('time', '', 'tokens_train = tokenizer.captions_to_tokens(captions_train_marked)')
+# get_ipython().run_cell_magic('time', '', 'tokens_train = tokenizer.captions_to_tokens(captions_train_marked)')
 
 # Example of the integer-tokens for the captions of the first image in the training-set:
 
@@ -803,7 +803,7 @@ except Exception as error:
 # Note that if we didn't use pre-computed transfer-values then each epoch would take maybe 40 minutes to run, because all the images would have to be processed by the VGG16 model as well.
 
 # In[ ]:
-get_ipython().run_cell_magic('time', '', 'decoder_model.fit_generator(generator=generator,\n                            steps_per_epoch=steps_per_epoch,\n                            epochs=20,\n                            callbacks=callbacks)')
+# get_ipython().run_cell_magic('time', '', 'decoder_model.fit_generator(generator=generator,\n                            steps_per_epoch=steps_per_epoch,\n                            epochs=20,\n                            callbacks=callbacks)')
 
 # ## Generate Captions
 # This function loads an image and generates a caption using the model we have trained.

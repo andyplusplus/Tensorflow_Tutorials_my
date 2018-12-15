@@ -14,8 +14,8 @@
 # Because the Inception model is constructed from many basic mathematical operations that have been combined, TensorFlow allows us to easily find the gradient using the chain-rule of differentiation.
 
 # In[44]:
-from IPython.display import Image, display
-Image('images/13_visual_analysis_flowchart.png')
+# from IPython.display import Image, display
+# Image('images/13_visual_analysis_flowchart.png')
 
 # ## Imports
 

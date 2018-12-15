@@ -16,8 +16,8 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from IPython.display import Image, display
-Image('images/14_deepdream_flowchart.png')
+# from IPython.display import Image, display
+# Image('images/14_deepdream_flowchart.png')
 
 # ### Recursive Optimization
 # The Inception model was trained on images of fairly low resolution, presumably 200-300 pixels. So when we use images with much larger resolution, the DeepDream algorithm will create many small patterns in the image.
@@ -26,7 +26,7 @@ Image('images/14_deepdream_flowchart.png')
 # This flowchart shows roughly the idea. The algorithm is implemented recursively and supports any number of downscaling levels. The algorithm has several details not shown here, e.g. that the images are blurred slightly before being downscaled, and the original image is only blended somewhat with the DeepDream images to add some of the original detail back in.
 
 # In[2]:
-Image('images/14_deepdream_recursive_flowchart.png')
+# Image('images/14_deepdream_recursive_flowchart.png')
 
 # ## Imports
 

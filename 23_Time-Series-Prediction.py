@@ -82,7 +82,7 @@ cities
 # Load and resample the data so it has observations at regular time-intervals for every 60 minutes. Missing data-points are linearly interpolated. This takes about 30 seconds to run the first time but uses a cache-file so it loads very quickly the next time.
 
 # In[9]:
-get_ipython().run_cell_magic('time', '', 'df = weather.load_resampled_data()')
+# get_ipython().run_cell_magic('time', '', 'df = weather.load_resampled_data()')
 
 # These are the top rows of the data-set.
 
@@ -518,7 +518,7 @@ callbacks = [callback_early_stopping,
 # Also note that the loss sometimes becomes `NaN` (not-a-number). This is often resolved by restarting and running the Notebook again. But it may also be caused by your neural network architecture, learning-rate, batch-size, sequence-length, etc. in which case you may have to modify those settings.
 
 # In[ ]:
-get_ipython().run_cell_magic('time', '', 'model.fit_generator(generator=generator,\n                    epochs=20,\n                    steps_per_epoch=100,\n                    validation_data=validation_data,\n                    callbacks=callbacks)')
+# get_ipython().run_cell_magic('time', '', 'model.fit_generator(generator=generator,\n                    epochs=20,\n                    steps_per_epoch=100,\n                    validation_data=validation_data,\n                    callbacks=callbacks)')
 
 # ### Load Checkpoint
 # Because we use early-stopping when training the model, it is possible that the model's performance has worsened on the test-set for several epochs before training was stopped. We therefore reload the last saved checkpoint, which should have the best performance on the test-set.

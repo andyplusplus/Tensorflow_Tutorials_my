@@ -487,7 +487,7 @@ print_test_accuracy()
 # After 10,000 optimization iterations, the model has a classification accuracy on the test-set of about 99%.
 
 # In[38]:
-get_ipython().run_cell_magic('time', '', 'optimize(num_iterations=10000)')
+# get_ipython().run_cell_magic('time', '', 'optimize(num_iterations=10000)')
 
 # In[39]:
 print_test_accuracy(show_example_errors=True,

@@ -1,26 +1,11 @@
 # # TensorFlow Tutorial #04
 # # Save & Restore
-# / [GitHub](https://github.com/Hvass-Labs/TensorFlow-Tutorials) / [Videos on YouTube](https://www.youtube.com/playlist?list=PL9Hr9sNUjfsmEu1ZniY0XpHSzl5uihcXZ)
 
-# ## WARNING!
-# **This tutorial does not work with TensorFlow v. 1.9 due to the PrettyTensor builder API apparently no longer being updated and supported by the Google Developers. It is recommended that you use the _Keras API_ instead, which also makes it much easier to save and load a model, see Tutorial #03-C.**
-
-# ## Introduction
-# This tutorial demonstrates how to save and restore the variables of a Neural Network. During optimization we save the variables of the neural network whenever its classification accuracy has improved on the validation-set. The optimization is aborted when there has been no improvement for 1000 iterations. We then reload the variables that performed best on the validation-set.
-# This strategy is called Early Stopping. It is used to avoid overfitting of the neural network. This occurs when the neural network is being trained for too long so it starts to learn the noise of the training-set, which causes the neural network to mis-classify new images.
-# Overfitting is not really a problem for the neural network used in this tutorial on the MNIST data-set for recognizing hand-written digits. But this tutorial demonstrates the idea of Early Stopping.
-# This builds on the previous tutorials, so you should have a basic understanding of TensorFlow and the add-on package Pretty Tensor. A lot of the source-code and text in this tutorial is similar to the previous tutorials and may be read quickly if you have recently read the previous tutorials.
-
-# ## Flowchart
-
-# The following chart shows roughly how the data flows in the Convolutional Neural Network that is implemented below. The network has two convolutional layers and two fully-connected layers, with the last layer being used for the final classification of the input images. See Tutorial #02 for a more detailed description of this network and convolution in general.
-
-# In[1]:
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from IPython.display import Image
-Image('images/02_network_flowchart.png')
+# from IPython.display import Image
+# Image('images/02_network_flowchart.png')
 
 # ## Imports
 
@@ -183,7 +168,14 @@ x_pretty = pt.wrap(x_image)
 
 # In[16]:
 with pt.defaults_scope(activation_fn=tf.nn.relu):
-    y_pred, loss = x_pretty.        conv2d(kernel=5, depth=16, name='layer_conv1').        max_pool(kernel=2, stride=2).        conv2d(kernel=5, depth=36, name='layer_conv2').        max_pool(kernel=2, stride=2).        flatten().        fully_connected(size=128, name='layer_fc1').        softmax_classifier(num_classes=num_classes, labels=y_true)
+    y_pred, loss = x_pretty.\
+        conv2d(kernel=5, depth=16, name='layer_conv1').\
+        max_pool(kernel=2, stride=2).\
+        conv2d(kernel=5, depth=36, name='layer_conv2').\
+        max_pool(kernel=2, stride=2).\
+        flatten().\
+        fully_connected(size=128, name='layer_fc1').\
+        softmax_classifier(num_classes=num_classes, labels=y_true)
 
 # ### Getting the Weights
 

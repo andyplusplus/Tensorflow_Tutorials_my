@@ -23,8 +23,8 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from IPython.display import Image, display
-Image('images/08_transfer_learning_flowchart.png')
+# from IPython.display import Image, display
+# Image('images/08_transfer_learning_flowchart.png')
 
 # ## Imports
 
