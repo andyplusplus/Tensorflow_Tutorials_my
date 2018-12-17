@@ -27,9 +27,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -924,6 +924,7 @@ class_names[5]
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
 # session.close()
+print_time_usage(start_time)
 
 # ## Conclusion
 # This tutorial showed how to make a Convolutional Neural Network for classifying images in the CIFAR-10 data-set. The classification accuracy was about 79-80% on the test-set.

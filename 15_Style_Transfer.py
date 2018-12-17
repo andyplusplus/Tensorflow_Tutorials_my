@@ -29,9 +29,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 import numpy as np
 import PIL.Image
@@ -467,6 +467,7 @@ def style_transfer(content_image, style_image,
 
     # Close the TensorFlow session to release its resources.
     session.close()
+print_time_usage(start_time)
     
     # Return the mixed-image.
     return mixed_image

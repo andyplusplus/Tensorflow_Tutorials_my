@@ -31,9 +31,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 import numpy as np
 import time
@@ -760,6 +760,7 @@ print_test_accuracy(show_example_errors=True,
 # with the Notebook without having to restart it.
 # model.close()
 # session.close()
+print_time_usage(start_time)
 
 # ## Conclusion
 # This tutorial showed how to use your own images in Transfer Learning with the Inception model. Thousands of images were used in this tutorial which were generated from just a few minutes of video recordings using a Python [script](https://github.com/Hvass-Labs/TensorFlow-Tutorials/blob/master/convert.py).

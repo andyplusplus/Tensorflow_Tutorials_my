@@ -1,8 +1,8 @@
 
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 
 from common.plot_helper import plot_images

@@ -28,9 +28,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 import numpy as np
 import os
@@ -427,6 +427,7 @@ adversary_example(image_path=image_path,
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
 # session.close()
+print_time_usage(start_time)
 # model.close()
 
 # ## Conclusion

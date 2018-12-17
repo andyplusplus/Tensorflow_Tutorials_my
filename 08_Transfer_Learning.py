@@ -32,9 +32,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 import numpy as np
 import time
@@ -704,6 +704,7 @@ print_test_accuracy(show_example_errors=True,
 # with the Notebook without having to restart it.
 # model.close()
 # session.close()
+print_time_usage(start_time)
 
 # ## Conclusion
 # In the previous Tutorial #06 it took 15 hours on a laptop PC to train a neural network for classifying the CIFAR-10 data-set with an accuracy of about 80% on the test-set.

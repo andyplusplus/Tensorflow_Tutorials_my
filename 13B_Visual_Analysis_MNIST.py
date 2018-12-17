@@ -23,9 +23,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
-from datetime import timedelta
-import time
-start_time = time.time()
+from common.time_usage import get_start_time
+from common.time_usage import print_time_usage
+start_time=get_start_time()
 is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -735,6 +735,7 @@ optimize_images(conv_id=None)
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
 # session.close()
+print_time_usage(start_time)
 
 # ## Conclusion
 # This tutorial showed how to find the input images that maximize certain features inside a neural network. These are the images that the neural network *likes to see the most* in order to activate a certain feature or neuron inside the network.
