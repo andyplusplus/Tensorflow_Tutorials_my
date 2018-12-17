@@ -23,6 +23,9 @@
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+from datetime import timedelta
+import time
+start_time = time.time()
 is_plot = False
 import numpy as np
 

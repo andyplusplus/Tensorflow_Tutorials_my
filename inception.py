@@ -56,6 +56,9 @@
 
 import numpy as np
 import tensorflow as tf
+from datetime import timedelta
+import time
+start_time = time.time()
 is_plot = False
 import download
 from cache import cache

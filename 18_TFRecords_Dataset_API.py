@@ -17,6 +17,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
 import tensorflow as tf
+from datetime import timedelta
+import time
+start_time = time.time()
 is_plot = False
 import numpy as np
 import sys
