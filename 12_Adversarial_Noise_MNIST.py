@@ -31,7 +31,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage
-start_time=get_start_time()
+start_time_global=get_start_time()
 is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -797,7 +797,7 @@ print_test_accuracy(show_example_errors=True,
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
 # session.close()
-print_time_usage(start_time)
+print_time_usage(start_time_global)
 
 # ## Discussion
 

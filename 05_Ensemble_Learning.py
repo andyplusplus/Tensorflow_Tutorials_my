@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage
-start_time=get_start_time()
+start_time_global=get_start_time()
 is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -772,7 +772,7 @@ print_labels_all_nets(idx=best_net_better)
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
 # session.close()
-print_time_usage(start_time)
+print_time_usage(start_time_global)
 
 # ## Conclusion
 # This tutorial created an ensemble of 5 convolutional neural networks for classifying hand-written digits in the MNIST data-set. The ensemble worked by averaging the predicted class-labels of the 5 individual neural networks. This resulted in slightly improved classification accuracy on the test-set, with the ensemble having an accuracy of 99.1% compared to 98.9% for the best individual network.

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage
-start_time=get_start_time()
+start_time_global=get_start_time()
 is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -406,7 +406,7 @@ plot_conv_weights(weights=weights_conv1)
 
 # ## Close TensorFlow Session
 session.close()
-print_time_usage(start_time)
+print_time_usage(start_time_global)
 
 # ## Conclusion
 # This tutorial showed how to save and retrieve the variables of a neural network in TensorFlow. This can be used in different ways. For example, if you want to use a neural network for recognizing images then you only have to train the network once and you can then deploy the finished network on other computers.

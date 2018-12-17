@@ -19,7 +19,7 @@ from matplotlib.image import imread
 import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage
-start_time=get_start_time()
+start_time_global=get_start_time()
 is_plot = False
 import numpy as np
 import sys

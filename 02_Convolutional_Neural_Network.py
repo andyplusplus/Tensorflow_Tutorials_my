@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage
-start_time=get_start_time()
+start_time_global=get_start_time()
 is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -351,7 +351,13 @@ plot_conv_layer(layer=layer_conv2, image=image2)
 
 # ### Close TensorFlow Session
 session.close()
-print_time_usage(start_time)
+print_time_usage(start_time_global)
+
+
+end_time = time.time()
+time_dif = end_time - start_time
+
+print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
 
 
 
