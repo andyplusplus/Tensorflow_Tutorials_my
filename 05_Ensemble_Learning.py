@@ -1,30 +1,8 @@
 # # TensorFlow Tutorial #05
 # # Ensemble Learning
-# / [GitHub](https://github.com/Hvass-Labs/TensorFlow-Tutorials) / [Videos on YouTube](https://www.youtube.com/playlist?list=PL9Hr9sNUjfsmEu1ZniY0XpHSzl5uihcXZ)
-
-# ## WARNING!
-# **This tutorial does not work with TensorFlow v. 1.9 due to the PrettyTensor builder API apparently no longer being updated and supported by the Google Developers. It is recommended that you use the _Keras API_ instead, which also makes it much easier to train or load multiple models to create an ensemble, see e.g. Tutorial #10 for inspiration on how to load and use pre-trained models using Keras.**
-
-# ## Introduction
-# This tutorial shows how to use a so-called ensemble of convolutional neural networks. Instead of using a single neural network, we use several neural networks and average their outputs.
-# This is used on the MNIST data-set for recognizing hand-written digits. The ensemble improves the classification accuracy slightly on the test-set, but the difference is so small that it is possibly random. Furthermore, the ensemble mis-classifies some images that are correctly classified by some of the individual networks.
-# This tutorial builds on the previous tutorials, so you should have a basic understanding of TensorFlow and the add-on package Pretty Tensor. A lot of the source-code and text here is similar to the previous tutorials and may be read quickly if you have recently read the previous tutorials.
-
-# ## Flowchart
-
-# The following chart shows roughly how the data flows in a single Convolutional Neural Network that is implemented below. The network has two convolutional layers and two fully-connected layers, with the last layer being used for the final classification of the input images. See Tutorial #02 for a more detailed description of this network and convolution in general.
-# This tutorial implements an ensemble of 5 such neural networks, where the network structure is the same but the weights and other variables are different for each network.
-
-# In[1]:
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-# from IPython.display import Image
-# Image('images/02_network_flowchart.png')
-
-# ## Imports
-
-# In[2]:
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
