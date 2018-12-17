@@ -25,6 +25,7 @@ import numpy
 from six.moves import urllib
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow as tf
+is_plot = False
 
 SOURCE_URL = 'http://yann.lecun.com/exdb/mnist/'
 

@@ -27,6 +27,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import time
@@ -148,7 +149,7 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Plot a few images to see if data is correct
 
@@ -729,7 +730,7 @@ def plot_conv_weights(weights, input_channel=0):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-function for plotting the output of convolutional layers
 
@@ -779,7 +780,7 @@ def plot_layer_output(layer_output, image):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ## Examples of distorted input images
 
@@ -868,7 +869,7 @@ def plot_image(image):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # Plot an image from the test-set. The raw pixelated image is used as input to the neural network.
 

@@ -23,6 +23,7 @@
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 
 # Functions and classes for loading and using the Inception model.
@@ -250,7 +251,7 @@ def plot_image(image):
     
     # Plot the image.
     plt.imshow(img_norm, interpolation='nearest')
-    plt.show()
+    if is_plot: plt.show()
 
 # This function plots 6 images in a grid.
 
@@ -293,7 +294,7 @@ def plot_images(images, show_size=100):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()    
+    if is_plot: plt.show()    
 
 # ### Helper-function for optimizing and plotting images
 

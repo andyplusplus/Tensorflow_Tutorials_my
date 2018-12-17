@@ -34,6 +34,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import random
 import math
@@ -111,7 +112,7 @@ def plot_image(image):
         
         # Plot using matplotlib.
         plt.imshow(image, interpolation='lanczos')
-        plt.show()
+        if is_plot: plt.show()
     else:
         # Ensure the pixel-values are between 0 and 255.
         image = np.clip(image, 0.0, 255.0)
@@ -144,7 +145,7 @@ def plot_gradient(gradient):
     
     # Plot the normalized gradient.
     plt.imshow(gradient_normalized, interpolation='bilinear')
-    plt.show()
+    if is_plot: plt.show()
 
 # This function resizes an image. It can take a size-argument where you give it the exact pixel-size you want the image to be e.g. (100, 200). Or it can take a factor-argument where you give it the rescaling-factor you want to use e.g. 0.5 for halving the size of the image in each dimension.
 # This is implemented using PIL which is a bit lengthy because we are working on numpy arrays where the pixels are floating-point values. This is not supported by PIL so the image must be converted to 8-bit bytes while ensuring the pixel-values are within the proper limits. Then the image is resized and converted back to floating-point values.

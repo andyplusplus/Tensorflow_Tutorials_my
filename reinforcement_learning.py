@@ -157,6 +157,7 @@
 
 import numpy as np
 import tensorflow as tf
+is_plot = False
 import gym
 import scipy
 import sys

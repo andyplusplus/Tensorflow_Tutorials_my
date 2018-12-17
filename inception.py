@@ -56,6 +56,7 @@
 
 import numpy as np
 import tensorflow as tf
+is_plot = False
 import download
 from cache import cache
 import os

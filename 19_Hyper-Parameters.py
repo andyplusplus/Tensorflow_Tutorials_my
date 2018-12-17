@@ -24,6 +24,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import math
 
@@ -211,7 +212,7 @@ def plot_images(images, cls_true, cls_pred=None):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Plot a few images to see if data is correct
 

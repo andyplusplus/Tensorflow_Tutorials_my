@@ -24,6 +24,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import matplotlib.pyplot as plt
 import PIL
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import os
 
@@ -103,7 +104,7 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-function for printing confusion matrix
 
@@ -222,7 +223,7 @@ def plot_training_history(history):
     plt.legend()
 
     # Ensure the plot shows correctly.
-    plt.show()
+    if is_plot: plt.show()
 
 # ## Dataset: Knifey-Spoony
 # The Knifey-Spoony dataset was introduced in Tutorial #09. It was generated from video-files by taking individual frames and converting them to images.
@@ -388,7 +389,7 @@ def predict(image_path):
 
     # Plot the image.
     plt.imshow(img_resized)
-    plt.show()
+    if is_plot: plt.show()
 
     # Convert the PIL image to a numpy-array with the proper shape.
     img_array = np.expand_dims(np.array(img_resized), axis=0)

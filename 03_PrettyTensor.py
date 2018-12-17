@@ -6,6 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import time
@@ -230,7 +231,7 @@ def plot_confusion_matrix(cls_pred):
     plt.yticks(tick_marks, range(num_classes))
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.show()
+    if is_plot: plt.show()
 
 # In[35]: # ### Helper-function for showing the performance # Split the test-set into smaller batches of this size.
 test_batch_size = 256
@@ -294,7 +295,7 @@ def plot_conv_weights(weights, input_channel=0):
         ax.set_xticks([])
         ax.set_yticks([])
     
-    plt.show()
+    if is_plot: plt.show()
 
 # In[46]: # ### Convolution Layer 1
 plot_conv_weights(weights=weights_conv1)

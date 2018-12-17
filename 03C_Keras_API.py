@@ -6,6 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import math
 
@@ -231,7 +232,7 @@ def plot_conv_weights(weights, input_channel=0):
         ax.set_yticks([])
     
     if is_plot:
-        plt.show()
+        if is_plot: plt.show()
 
 
 
@@ -271,7 +272,7 @@ def plot_conv_output(values):
         ax.set_yticks([])
     
     if is_plot:
-        plt.show()
+        if is_plot: plt.show()
 
 
 
@@ -282,7 +283,7 @@ def plot_image(image):
                cmap='binary')
 
     if is_plot:
-        plt.show()
+        if is_plot: plt.show()
 
 # In[59]: # Plot an image from the test-set which will be used as an example below.
 image1 = data.x_test[0]

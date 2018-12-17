@@ -6,6 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import math
@@ -153,7 +154,7 @@ def plot_confusion_matrix(cls_pred):
     plt.xlabel('Predicted')
     plt.ylabel('True')
 
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-function for showing the performance
 test_batch_size = 256
@@ -217,7 +218,7 @@ def plot_conv_weights(weights, input_channel=0):
                       interpolation='nearest', cmap='seismic')
         ax.set_xticks([])
         ax.set_yticks([])
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-function for plotting the output of a convolutional layer
 def plot_conv_layer(layer, image):
@@ -233,14 +234,14 @@ def plot_conv_layer(layer, image):
             ax.imshow(img, interpolation='nearest', cmap='binary')
         ax.set_xticks([])
         ax.set_yticks([])
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Input Images
 def plot_image(image):
     plt.imshow(image.reshape(img_shape),
                interpolation='nearest',
                cmap='binary')
-    plt.show()
+    if is_plot: plt.show()
 
 # In[56]: # Plot an image from the test-set which will be used as an example below.
 image1 = data.test.images[0]

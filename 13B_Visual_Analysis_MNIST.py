@@ -23,6 +23,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import math
@@ -97,7 +98,7 @@ def plot_images(images, cls_true, cls_pred=None):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # Function used to plot 10 images in a 2x5 grid.
 
@@ -129,7 +130,7 @@ def plot_images10(images, smooth=True):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()    
+    if is_plot: plt.show()    
 
 # Function used to plot a single image.
 
@@ -399,7 +400,7 @@ def plot_confusion_matrix(cls_pred):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-function for showing the performance
 

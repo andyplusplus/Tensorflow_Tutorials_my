@@ -32,6 +32,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import time
 from datetime import timedelta
@@ -149,7 +150,7 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Plot a few images to see if data is correct
 
@@ -241,7 +242,7 @@ def plot_transfer_values(i):
     
     # Plot the i'th image from the test-set.
     plt.imshow(images_test[i], interpolation='nearest')
-    plt.show()
+    if is_plot: plt.show()
 
     print("Transfer-values for the image using Inception model:")
     
@@ -251,7 +252,7 @@ def plot_transfer_values(i):
 
     # Plot the image for the transfer-values.
     plt.imshow(img, interpolation='nearest', cmap='Reds')
-    plt.show()
+    if is_plot: plt.show()
 
 # In[25]:
 plot_transfer_values(i=16)
@@ -313,7 +314,7 @@ def plot_scatter(values, cls):
 
     # Plot it.
     plt.scatter(x, y, color=colors)
-    plt.show()
+    if is_plot: plt.show()
 
 # Plot the transfer-values that have been reduced using PCA. There are 10 different colors for the different classes in the CIFAR-10 data-set. The colors are grouped together but with very large overlap. This may be because PCA cannot properly separate the transfer-values.
 

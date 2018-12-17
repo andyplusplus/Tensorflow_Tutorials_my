@@ -103,6 +103,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import gym
 import numpy as np
 import math
@@ -198,7 +199,7 @@ plt.plot(log_reward.count_states, log_reward.episode, label='Episode Reward')
 plt.plot(log_reward.count_states, log_reward.mean, label='Mean of 30 episodes')
 plt.xlabel('State-Count for Game Environment')
 plt.legend()
-plt.show()
+if is_plot: plt.show()
 
 # ### Training Progress: Q-Values
 # The following plot shows the mean Q-values from the replay-memory prior to each run of the optimizer for the Neural Network. Note how the mean Q-values increase rapidly in the beginning and then they increase fairly steadily for 40 million states, after which they still trend upwards but somewhat more irregularly.
@@ -209,7 +210,7 @@ plt.show()
 plt.plot(log_q_values.count_states, log_q_values.mean, label='Q-Value Mean')
 plt.xlabel('State-Count for Game Environment')
 plt.legend()
-plt.show()
+if is_plot: plt.show()
 
 # ## Testing
 # When the agent and Neural Network is being trained, the so-called epsilon-probability is typically decreased from 1.0 to 0.1 over a large number of steps, after which the probability is held fixed at 0.1. This means the probability is 0.1 or 10% that the agent will select a random action in each step, otherwise it will select the action that has the highest Q-value. This is known as the epsilon-greedy policy. The choice of 0.1 for the epsilon-probability is a compromise between taking the actions that are already known to be good, versus exploring new actions that might lead to even higher rewards or might lead to death of the agent.
@@ -327,7 +328,7 @@ def plot_state(idx, print_q=True):
               interpolation='lanczos', cmap='gray')
 
     # This is necessary if we show more than one plot in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
     
     # Print the Q-values.
     if print_q:
@@ -472,7 +473,7 @@ def plot_layer_output(model, layer_name, state_index, inverse_cmap=False):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Game State
 # This is the state that is being input to the Neural Network. The image on the left is the last image from the game-environment. The image on the right is the processed motion-trace that shows the trajectories of objects in the game-environment.
@@ -572,7 +573,7 @@ def plot_conv_weights(model, layer_name, input_channel=0):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Weights for Convolutional Layer 1
 # These are the weights of the first convolutional layer of the Neural Network, with respect to the first input channel of the state. That is, these are the weights that are used on the image from the game-environment. Some basic statistics are also shown.

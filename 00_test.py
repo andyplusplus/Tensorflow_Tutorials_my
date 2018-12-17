@@ -1,5 +1,6 @@
 
 import tensorflow as tf
+is_plot = False
 
 from common.plot_helper import plot_images
 
@@ -11,4 +12,5 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # In[2]:
-print("TensorFlow Version", tf.__version__)
+if is_plot: print("TensorFlow Version", tf.__version__)
+

@@ -11,6 +11,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import time
@@ -215,7 +216,7 @@ def plot_confusion_matrix(cls_pred):
     plt.yticks(tick_marks, range(num_classes))
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.show()
+    if is_plot: plt.show()
 
 
 # In[42]: # ### Helper-function for showing the performance
@@ -297,7 +298,7 @@ def plot_conv_weights(weights, input_channel=0):
         ax.set_xticks([])
         ax.set_yticks([])
 
-    plt.show()
+    if is_plot: plt.show()
 
 
 # In[53]: # ### Helper-function for plotting the output of a convolutional layer
@@ -315,7 +316,7 @@ def plot_conv_layer(layer, image):
         ax.set_xticks([])
         ax.set_yticks([])
     
-    plt.show()
+    if is_plot: plt.show()
 
 
 # In[54]: # ### Input Images
@@ -323,7 +324,7 @@ def plot_image(image):
     plt.imshow(image.reshape(img_shape),
                interpolation='nearest',
                cmap='binary')
-    plt.show()
+    if is_plot: plt.show()
 
 
 

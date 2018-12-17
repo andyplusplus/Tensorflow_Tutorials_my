@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 
-
-def plot_images(images, cls_true, cls_pred=None, img_shape=(28,28)):
+def plot_images(images, cls_true, cls_pred=None, img_shape=(28,28), is_plot = False):
     assert len(images) == len(cls_true) == 9
 
     # Create figure with 3x3 sub-plots.
@@ -27,7 +26,7 @@ def plot_images(images, cls_true, cls_pred=None, img_shape=(28,28)):
 
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 
 
@@ -57,4 +56,4 @@ def plot_images(images, cls_true, cls_pred=None, img_shape=(28,28)):
 #
 #     # Ensure the plot is shown correctly with multiple plots
 #     # in a single Notebook cell.
-#     plt.show()
+#     if is_plot: plt.show()

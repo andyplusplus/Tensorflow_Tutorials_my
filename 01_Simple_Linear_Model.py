@@ -7,6 +7,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 
@@ -108,7 +109,7 @@ def print_confusion_matrix():
     plt.xlabel('Predicted')
     plt.ylabel('True')
     
-    plt.show()
+    if is_plot: plt.show()
 
 # In[30]: # Function for plotting examples of images from the test-set that have been mis-classified.
 def plot_example_errors():
@@ -140,7 +141,7 @@ def plot_weights():
             ax.imshow(image, vmin=w_min, vmax=w_max, cmap='seismic')
         ax.set_xticks([])
         ax.set_yticks([])
-    plt.show()
+    if is_plot: plt.show()
 
 # In[32]: # ## Performance before any optimization # The accuracy on the test-set is 9.8%. This is because the model has only been initialized and not optimized at all, so it always predicts that the image shows a zero digit, as demonstrated in the plot below, and it turns out that 9.8% of the images in the test-set happens to be zero digits.
 print_accuracy()

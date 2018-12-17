@@ -27,6 +27,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import os
 
@@ -109,7 +110,7 @@ def plot_resized_image(image_path):
     plt.imshow(resized_image, interpolation='nearest')
     
     # Ensure that the plot is shown.
-    plt.show()
+    if is_plot: plt.show()
 
 # Now plot the resized image of the parrot. This is the image that is actually input to the neural network of the Inception model. We can see that it has been squeezed so it is square, and the resolution has been reduced so the image has become more pixelated and grainy.
 # In this case the image still clearly shows a parrot, but some images may become so distorted from this naive resizing that you may want to resize the images yourself before inputting them to the Inception model.

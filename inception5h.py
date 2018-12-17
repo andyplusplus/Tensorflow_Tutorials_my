@@ -29,6 +29,7 @@
 
 import numpy as np
 import tensorflow as tf
+is_plot = False
 import download
 import os
 

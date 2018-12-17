@@ -6,6 +6,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import math
 
@@ -372,7 +373,7 @@ def plot_conv_weights(weights, input_channel=0):
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
     if is_plot:
-        plt.show()
+        if is_plot: plt.show()
 
 # ### Get Layers
 # Keras has a simple way of listing the layers in the model.
@@ -452,7 +453,7 @@ def plot_conv_output(values):
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
     if is_plot:
-        plt.show()
+        if is_plot: plt.show()
 
 # ### Input Image
 # Helper-function for plotting a single image.
@@ -464,7 +465,7 @@ def plot_image(image):
                cmap='binary')
 
     if is_plot:
-        plt.show()
+        if is_plot: plt.show()
 
 # Plot an image from the test-set which will be used as an example below.
 

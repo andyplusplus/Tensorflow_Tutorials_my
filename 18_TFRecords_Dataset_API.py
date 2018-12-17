@@ -17,6 +17,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import matplotlib.pyplot as plt
 from matplotlib.image import imread
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import sys
 import os
@@ -141,7 +142,7 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-function for loading images
 

@@ -36,6 +36,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import pandas as pd
 import os
@@ -608,7 +609,7 @@ def plot_comparison(start_idx, length=100, train=True):
         # Plot labels etc.
         plt.ylabel(target_names[signal])
         plt.legend()
-        plt.show()
+        if is_plot: plt.show()
 
 # We can now plot an example of predicted output-signals. It is important to understand what these plots show, as they are actually a bit more complicated than you might think.
 # These plots only show the output-signals and not the 20 input-signals used to predict the output-signals. The time-shift between the input-signals and the output-signals is held fixed in these plots. The model **always** predicts the output-signals e.g. 24 hours into the future (as defined in the `shift_steps` variable above). So the plot's x-axis merely shows how many time-steps of the input-signals have been seen by the predictive model so far.

@@ -7,6 +7,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 from sklearn.metrics import confusion_matrix
 import time
@@ -60,7 +61,7 @@ def plot_images(images, cls_true, cls_pred=None):
         ax.set_xticks([])
         ax.set_yticks([])
     
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Plot a few images to see if data is correct
 images = data.test.images[0:9]
@@ -199,7 +200,7 @@ def plot_confusion_matrix(cls_pred):
     plt.xlabel('Predicted')
     plt.ylabel('True')
 
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Helper-functions for calculating classifications
 batch_size = 256
@@ -335,7 +336,7 @@ def plot_conv_weights(weights, input_channel=0):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    plt.show()
+    if is_plot: plt.show()
 
 # ## Performance before any optimization
 # The accuracy on the test-set is very low because the model variables have only been initialized and not optimized at all, so it just classifies the images randomly.

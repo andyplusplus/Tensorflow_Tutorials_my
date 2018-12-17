@@ -23,6 +23,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
+is_plot = False
 import numpy as np
 import os
 from PIL import Image
@@ -142,7 +143,7 @@ def show_image(idx, train):
     # Load the image and plot it.
     img = load_image(path)
     plt.imshow(img)
-    plt.show()
+    if is_plot: plt.show()
 
 # ### Example Image
 # Show an example image and captions from the training-set.
@@ -892,7 +893,7 @@ def generate_caption(image_path, max_tokens=30):
 
     # Plot the image.
     plt.imshow(image)
-    plt.show()
+    if is_plot: plt.show()
     
     # Print the predicted caption.
     print("Predicted caption:")
