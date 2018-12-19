@@ -5,9 +5,12 @@ data = get_mnist()
 
 """
 # Load Data  In [3]:
+from common.file_operator import get_data_directory_mnist
 from mnist import MNIST # package: python-mnist
 
-def get_mnist(path="data_reader/mnist/"):
+def get_mnist(path=""):
+    if(path == ""):
+        path = get_data_directory_mnist()
     data = MNIST(path)
 
     print("Size of:")
@@ -18,8 +21,10 @@ def get_mnist(path="data_reader/mnist/"):
 
 
 from tensorflow.examples.tutorials.mnist import input_data
-def get_mnist_4_prettyTensor(path="data_reader/mnist/"):
-    data = input_data.read_data_sets('data/mnist/', one_hot=True)
+def get_mnist_4_prettyTensor(path=""):
+    if(path == ""):
+        path = get_data_directory_mnist()
+    data = input_data.read_data_sets(path, one_hot=True)
 
     print("Size of:")
     print("- Training-set:\t\t{}".format(len(data.train.labels)))

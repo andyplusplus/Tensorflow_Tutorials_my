@@ -1,9 +1,10 @@
 import os
 import numpy as np
 
+from common.file_operator import get_data_directory_mnist
 
-dirpath = os.path.dirname(__file__)
-mnist_filepath = os.path.join(dirpath, '..', 'data', 'mnist', 'mnist.npz')
+dirpath = get_data_directory_mnist()
+mnist_filepath = os.path.join(dirpath, 'mnist.npz')
 x_train, y_train = None, None
 x_test, y_test = None, None
 
