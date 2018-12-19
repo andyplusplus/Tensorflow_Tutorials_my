@@ -79,7 +79,7 @@ class VGG16:
     """
 
     # Name of the tensor for feeding the input image.
-    tensor_name_input_image = "images:0"
+    tensor_name_input_image = "data/images:0"
 
     # Names of the tensors for the dropout random-values..
     tensor_name_dropout = 'dropout/random_uniform:0'

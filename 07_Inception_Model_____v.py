@@ -96,7 +96,7 @@ classify(image_path)
 # The Inception model is very confident (score about 97%) that this image shows a kind of parrot called a macaw.
 
 # In[9]:
-classify(image_path="images/parrot.jpg")
+classify(image_path="data/images/parrot.jpg")
 
 # ## Parrot (Resized Image)
 
@@ -119,21 +119,21 @@ def plot_resized_image(image_path):
 # In this case the image still clearly shows a parrot, but some images may become so distorted from this naive resizing that you may want to resize the images yourself before inputting them to the Inception model.
 
 # In[11]:
-plot_resized_image(image_path="images/parrot.jpg")
+plot_resized_image(image_path="data/images/parrot.jpg")
 
 # ## Parrot (Cropped Image, Top)
 
 # This image of the parrot has been cropped manually to 299 x 299 pixels and then input to the Inception model, which is still very confident (score about 97%) that it shows a parrot (macaw).
 
 # In[12]:
-classify(image_path="images/parrot_cropped1.jpg")
+classify(image_path="data/images/parrot_cropped1.jpg")
 
 # ## Parrot (Cropped Image, Middle)
 
 # This is another crop of the parrot image, this time showing its body without the head or tail. The Inception model is still very confident (score about 94%) that it shows a macaw parrot.
 
 # In[13]:
-classify(image_path="images/parrot_cropped2.jpg")
+classify(image_path="data/images/parrot_cropped2.jpg")
 
 # ## Parrot (Cropped Image, Bottom)
 
@@ -141,33 +141,33 @@ classify(image_path="images/parrot_cropped2.jpg")
 # The Inception model also thinks the image might show a fountain-pen (score about 2%). But this is a very low score and should be interpreted as unreliable noise.
 
 # In[14]:
-classify(image_path="images/parrot_cropped3.jpg")
+classify(image_path="data/images/parrot_cropped3.jpg")
 
 # ## Parrot (Padded Image)
 
 # The best way to input images to this Inception model, is to pad the image so it is square and then resize the image to 299 x 299 pixels, like this example of the parrot which is classified correctly with a score of about 97%.
 
 # In[15]:
-classify(image_path="images/parrot_padded.jpg")
+classify(image_path="data/images/parrot_padded.jpg")
 
 # ## Elon Musk (299 x 299 pixels)
 
 # This image shows the living legend and super-nerd-hero Elon Musk. But the Inception model is very confused about what the image shows, predicting that it maybe shows a sweatshirt (score about 17%) or an abaya (score about 16%). It also thinks the image might show a ping-pong ball (score about 3%) or a baseball (score about 2%). So the Inception model is confused and the classification scores are unreliable.
 
 # In[16]:
-classify(image_path="images/elon_musk.jpg")
+classify(image_path="data/images/elon_musk.jpg")
 
 # ## Elon Musk (100 x 100 pixels)
 
 # If we instead use a 100 x 100 pixels image of Elon Musk, then the Inception model thinks it might show a sweatshirt (score about 22%) or a cowboy boot (score about 14%). So now the Inception model has somewhat different predictions but it is still very confused.
 
 # In[17]:
-classify(image_path="images/elon_musk_100x100.jpg")
+classify(image_path="data/images/elon_musk_100x100.jpg")
 
 # The Inception model automatically upscales this image from 100 x 100 to 299 x 299 pixels, which is shown here. Note how pixelated and grainy it really is, although a human can easily see that this is a picture of a man with crossed arms.
 
 # In[18]:
-plot_resized_image(image_path="images/elon_musk_100x100.jpg")
+plot_resized_image(image_path="data/images/elon_musk_100x100.jpg")
 
 # ## Willy Wonka (Gene Wilder)
 
@@ -175,14 +175,14 @@ plot_resized_image(image_path="images/elon_musk_100x100.jpg")
 # The reason might be that the Inception model was trained on images of people with bow-ties that were classified as a bow-tie rather than a person. So maybe the problem is that the class-name should be "person with bow-tie" instead of just "bow-tie".
 
 # In[19]:
-classify(image_path="images/willy_wonka_old.jpg")
+classify(image_path="data/images/willy_wonka_old.jpg")
 
 # ## Willy Wonka (Johnny Depp)
 
 # This image shows the actor Johnny Depp portraying Willy Wonka in the 2005 version of the movie. The Inception model thinks that this image shows "sunglasses" (score about 34%) or "sunglass" (score about 18%). Actually, the full name of the first class is "sunglasses, dark glasses, shades". For some reason the Inception model has been trained to recognize two very similar classes for sunglasses. Once again, it is correct that the image shows sunglasses, but a human would probably have said that this image shows a person.
 
 # In[20]:
-classify(image_path="images/willy_wonka_new.jpg")
+classify(image_path="data/images/willy_wonka_new.jpg")
 
 # ## Close TensorFlow Session
 

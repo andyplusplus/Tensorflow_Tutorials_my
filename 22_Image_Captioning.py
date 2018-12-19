@@ -907,12 +907,12 @@ def generate_caption(image_path, max_tokens=30):
 # Try this with a picture of a parrot.
 
 # In[71]:
-generate_caption("images/parrot_cropped1.jpg")
+generate_caption("data/images/parrot_cropped1.jpg")
 
 # Try it with a picture of a person (Elon Musk). In Tutorial #07 the Inception model mis-classified this picture as being either a sweatshirt or a cowboy boot.
 
 # In[72]:
-generate_caption("images/elon_musk.jpg")
+generate_caption("data/images/elon_musk.jpg")
 
 # Helper-function for loading an image from the COCO data-set and printing the true captions as well as the predicted caption.
 

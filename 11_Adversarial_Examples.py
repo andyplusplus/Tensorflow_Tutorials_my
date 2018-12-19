@@ -369,7 +369,7 @@ def adversary_example(image_path, cls_target,
 # The required-score is set to 0.99 which means the optimization that finds the adversarial noise will stop when the target classification score is 0.99 or higher, so the Inception model is almost completely certain that the noisy image shows the desired target class.
 
 # In[16]:
-image_path = "images/parrot_cropped1.jpg"
+image_path = "data/images/parrot_cropped1.jpg"
 
 adversary_example(image_path=image_path,
                   cls_target=300,
@@ -385,7 +385,7 @@ adversary_example(image_path=image_path,
 # We can also find adversarial noise for an image of Elon Musk. The target-class is again set to a 'bookcase' (class-number 300), with the same settings for the noise-limit and required score as above.
 
 # In[17]:
-image_path = "images/elon_musk.jpg"
+image_path = "data/images/elon_musk.jpg"
 
 adversary_example(image_path=image_path,
                   cls_target=300,
@@ -397,7 +397,7 @@ adversary_example(image_path=image_path,
 # ### Willy Wonka (New)
 
 # In[18]:
-image_path = "images/willy_wonka_new.jpg"
+image_path = "data/images/willy_wonka_new.jpg"
 
 adversary_example(image_path=image_path,
                   cls_target=300,
@@ -410,7 +410,7 @@ adversary_example(image_path=image_path,
 # ### Willy Wonka (Old)
 
 # In[19]:
-image_path = "images/willy_wonka_old.jpg"
+image_path = "data/images/willy_wonka_old.jpg"
 
 adversary_example(image_path=image_path,
                   cls_target=300,
