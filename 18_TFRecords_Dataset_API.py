@@ -173,7 +173,7 @@ plot_images(images=images, cls_true=cls_true, smooth=True)
 
 # ## Create TFRecords
 
-# TFRecords is the binary file-format used internally in TensorFlow which allows for high-performance reading and processing of datasets.
+# TFRecords is the binary file-format used internally in TensorFlow which allows for high-performance reading and processing of data_reader.
 # For this small dataset we will just create one TFRecords file for the training-set and another for the test-set. But if your dataset is very large then you can split it into several TFRecords files called shards. This will also improve the random shuffling, because the Dataset API only shuffles from a smaller buffer of e.g. 1024 elements loaded into RAM. So if you have e.g. 100 TFRecords files, then the randomization will be much better than for a single TFRecords file.
 
 # File-path for the TFRecords file holding the training-set.
@@ -656,7 +656,7 @@ np.sum(cls_pred == 1)
 np.sum(cls_pred == 2)
 
 # ## Conclusion
-# This tutorial showed how to use TensorFlow's binary file-format TFRecords with the Dataset and Estimator APIs. This should simplify the process of training models with very large datasets while getting high usage of the GPU. However, the API could have been simpler in many ways.
+# This tutorial showed how to use TensorFlow's binary file-format TFRecords with the Dataset and Estimator APIs. This should simplify the process of training models with very large data_reader while getting high usage of the GPU. However, the API could have been simpler in many ways.
 
 # ## Exercises
 # These are a few suggestions for exercises that may help improve your skills with TensorFlow. It is important to get hands-on experience with TensorFlow in order to learn how to use it properly.

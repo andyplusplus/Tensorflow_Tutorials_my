@@ -1,9 +1,10 @@
-import os
+from os.path import dirname
 
-from datasets import input_data
+from common.data_reader import input_data
 
-dirpath = os.path.dirname(__file__)
-mnist_filepath = os.path.join(dirpath, 'mnist')
+
+dirpath = dirname(__file__)
+# mnist_filepath = os.path.join(dirpath, '..', 'data', 'mnist')
 
 mnist_obj = None
 

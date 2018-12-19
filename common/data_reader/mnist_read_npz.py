@@ -3,7 +3,7 @@ import numpy as np
 
 
 dirpath = os.path.dirname(__file__)
-mnist_filepath = os.path.join(dirpath, 'mnist', 'mnist.npz')
+mnist_filepath = os.path.join(dirpath, '..', 'data', 'mnist', 'mnist.npz')
 x_train, y_train = None, None
 x_test, y_test = None, None
 

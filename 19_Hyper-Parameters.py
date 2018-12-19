@@ -437,7 +437,7 @@ fitness(x=default_parameters)
 
 # ### Run the Hyper-Parameter Optimization
 # Now we are ready to run the actual hyper-parameter optimization using Bayesian optimization from the scikit-optimize package. Note that it first calls `fitness()` with `default_parameters` as the starting point we have found by hand-tuning, which should help the optimizer locate better hyper-parameters faster.
-# There are many more parameters you can experiment with here, including the number of calls to the `fitness()` function which we have set to 40. But `fitness()` is very expensive to evaluate so it should not be run too many times, especially for larger neural networks and datasets.
+# There are many more parameters you can experiment with here, including the number of calls to the `fitness()` function which we have set to 40. But `fitness()` is very expensive to evaluate so it should not be run too many times, especially for larger neural networks and data_reader.
 # You can also experiment with the so-called acquisition function which determines how to find a new set of hyper-parameters from the internal model of the Bayesian optimizer. You can also try using another Bayesian optimizer such as Random Forests.
 
 # In[27]:
