@@ -354,11 +354,6 @@ session.close()
 print_time_usage(start_time_global)
 
 
-end_time = time.time()
-time_dif = end_time - start_time
-
-print("Time usage: " + str(timedelta(seconds=int(round(time_dif)))))
-
 
 
 # ## Conclusion

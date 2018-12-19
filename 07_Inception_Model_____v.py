@@ -68,7 +68,7 @@ model = inception.Inception()
 # In[7]:
 def classify(image_path):
     # Display the image.
-    display(Image(image_path))
+    # display(Image(image_path))
 
     # Use the Inception model to classify the image.
     pred = model.classify(image_path=image_path)

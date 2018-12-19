@@ -961,6 +961,8 @@ generate_caption_coco(idx=10, train=True)
 # In[76]:
 generate_caption_coco(idx=1, train=False)
 
+print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DONE! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+
 # ## Conclusion
 # This tutorial showed how to generate captions for images. We used a pre-trained image-model (VGG16) to generate a "thought-vector" of what the image contains, and then we trained a Recurrent Neural Network to map this "thought-vector" to a sequence of words.
 # This works reasonably well, although it is easy to find examples both in the training- and validation-sets where the captions are incorrect.

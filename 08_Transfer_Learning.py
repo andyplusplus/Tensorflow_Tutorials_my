@@ -1,34 +1,6 @@
 # # TensorFlow Tutorial #08
-# # Transfer Learning
-# / [GitHub](https://github.com/Hvass-Labs/TensorFlow-Tutorials) / [Videos on YouTube](https://www.youtube.com/playlist?list=PL9Hr9sNUjfsmEu1ZniY0XpHSzl5uihcXZ)
-
-# ## WARNING!
-# **This tutorial does not work with TensorFlow v. 1.9 due to the PrettyTensor builder API apparently no longer being updated and supported by the Google Developers. It would take too much effort to update this tutorial to use e.g. the Keras API, especially because Tutorial #10 is a similar but more advanced version of Transfer Learning using the Keras builder API. However, you may still want to watch the video for this Tutorial #08 as it explains more details about Transfer Learning than Tutorial #10 does.**
-
-# ## Introduction
-# We saw in the previous Tutorial #07 how to use the pre-trained Inception model for classifying images. Unfortunately the Inception model seemed unable to classify images of people. The reason was the data-set used for training the Inception model, which had some confusing text-labels for classes.
-# The Inception model is actually quite capable of extracting useful information from an image. So we can instead train the Inception model using another data-set. But it takes several weeks using a very powerful and expensive computer to fully train the Inception model on a new data-set.
-# We can instead re-use the pre-trained Inception model and merely replace the layer that does the final classification. This is called Transfer Learning.
-# This tutorial builds on the previous tutorials so you should be familiar with Tutorial #07 on the Inception model, as well as earlier tutorials on how to build and train Neural Networks in TensorFlow. A part of the source-code for this tutorial is located in the `inception.py` file.
-
-# ## Flowchart
-
-# The following chart shows how the data flows when using the Inception model for Transfer Learning. First we input and process an image with the Inception model. Just prior to the final classification layer of the Inception model, we save the so-called Transfer Values to a cache-file.
-# The reason for using a cache-file is that it takes a long time to process an image with the Inception model. My laptop computer with a Quad-Core 2 GHz CPU can process about 3 images per second using the Inception model. If each image is processed more than once then we can save a lot of time by caching the transfer-values.
-# The transfer-values are also sometimes called bottleneck-values, but that is a confusing term so it is not used here.
-# When all the images in the new data-set have been processed through the Inception model and the resulting transfer-values saved to a cache file, then we can use those transfer-values as the input to another neural network. We will then train the second neural network using the classes from the new data-set, so the network learns how to classify images based on the transfer-values from the Inception model.
-# In this way, the Inception model is used to extract useful information from the images and another neural network is then used for the actual classification.
-
-# In[1]:
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-# from IPython.display import Image, display
-# Image('images/08_transfer_learning_flowchart.png')
-
-# ## Imports
-
-# In[2]:
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -41,38 +13,20 @@ import time
 from datetime import timedelta
 import os
 
-# Functions and classes for loading and using the Inception model.
 import inception
 
-# We use Pretty Tensor to define the new classifier.
 import prettytensor as pt
 
-# This was developed using Python 3.5.2 (Anaconda) and TensorFlow version:
-
-# In[3]:
-tf.__version__
-
-# PrettyTensor version:
-
-# In[4]:
 pt.__version__
 
-# ## Load Data for CIFAR-10 
+# ## Load Data for CIFAR-10
 
-# In[5]:
 import cifar10
-
-# The data dimensions have already been defined in the cifar10 module, so we just need to import the ones we need.
-
-# In[6]:
 from cifar10 import num_classes
-
-# Set the path for storing the data-set on your computer.
 
 # In[7]:
 # cifar10.data_path = "data/CIFAR-10/"
 
-# The CIFAR-10 data-set is about 163 MB and will be downloaded automatically if it is not located in the given path.
 
 # In[8]:
 cifar10.maybe_download_and_extract()
@@ -146,11 +100,11 @@ def plot_images(images, cls_true, cls_pred=None, smooth=True):
 
             # Show the classes as the label on the x-axis.
             ax.set_xlabel(xlabel)
-        
+
         # Remove ticks from the plot.
         ax.set_xticks([])
         ax.set_yticks([])
-    
+
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
     if is_plot: plt.show()
@@ -242,13 +196,13 @@ transfer_values_test.shape
 # In[24]:
 def plot_transfer_values(i):
     print("Input image:")
-    
+
     # Plot the i'th image from the test-set.
     plt.imshow(images_test[i], interpolation='nearest')
     if is_plot: plt.show()
 
     print("Transfer-values for the image using Inception model:")
-    
+
     # Transform the transfer-values into an image.
     img = transfer_values_test[i]
     img = img.reshape((32, 64))
@@ -343,7 +297,7 @@ tsne = TSNE(n_components=2)
 # Perform the final reduction using t-SNE. The current implemenation of t-SNE in scikit-learn cannot handle data with many samples so this might crash if you use the full training-set.
 
 # In[39]:
-transfer_values_reduced = tsne.fit_transform(transfer_values_50d) 
+transfer_values_reduced = tsne.fit_transform(transfer_values_50d)
 
 # Check that it is now an array with 3000 samples and 2 transfer-values per sample.
 
@@ -532,11 +486,11 @@ def plot_example_errors(cls_pred, correct):
 
     # Negate the boolean array.
     incorrect = (correct == False)
-    
+
     # Get the images from the test-set that have been
     # incorrectly classified.
     images = images_test[incorrect]
-    
+
     # Get the predicted classes for those images.
     cls_pred = cls_pred[incorrect]
 
@@ -544,7 +498,7 @@ def plot_example_errors(cls_pred, correct):
     cls_true = cls_test[incorrect]
 
     n = min(9, len(images))
-    
+
     # Plot the first n images.
     plot_images(images=images[0:n],
                 cls_true=cls_true[0:n],
@@ -614,7 +568,7 @@ def predict_cls(transfer_values, labels, cls_true):
         # Set the start-index for the next batch to the
         # end-index of the current batch.
         i = j
-        
+
     # Create a boolean array whether each image is correctly classified.
     correct = (cls_true == cls_pred)
 
@@ -653,10 +607,10 @@ def print_test_accuracy(show_example_errors=False,
     # For all the images in the test-set,
     # calculate the predicted classes and whether they are correct.
     correct, cls_pred = predict_cls_test()
-    
+
     # Classification accuracy and the number of correct classifications.
     acc, num_correct = classification_accuracy(correct)
-    
+
     # Number of images being classified.
     num_images = len(correct)
 
@@ -703,7 +657,7 @@ print_test_accuracy(show_example_errors=True,
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
 # model.close()
-# session.close()
+session.close()
 print_time_usage(start_time_global)
 
 # ## Conclusion
@@ -723,8 +677,3 @@ print_time_usage(start_time_global)
 # * Try using the MNIST data-set instead of the CIFAR-10 data-set.
 # * Explain to a friend how the program works.
 
-# ## License (MIT)
-# Copyright (c) 2016 by [Magnus Erik Hvass Pedersen](http://www.hvass-labs.org/)
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

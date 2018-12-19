@@ -316,7 +316,6 @@ class Inception:
         """
 
         self.session.close()
-print_time_usage(start_time_global)
 
     def _write_summary(self, logdir='summary/'):
         """
@@ -627,4 +626,5 @@ if __name__ == '__main__':
 
     # Transfer Learning is demonstrated in Tutorial #08.
 
+    print_time_usage(start_time_global)
 ########################################################################

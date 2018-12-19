@@ -1,11 +1,17 @@
+"""
+
+* [Demystify the TensorFlow APIs, 2018.10](https://medium.com/google-developer-experts/demystify-the-tensorflow-apis-57d2b0b8b6c0)
+* [Keras vs. TensorFlow – Which one is better and which one should I learn?](https://www.pyimagesearch.com/2018/10/08/keras-vs-tensorflow-which-one-is-better-and-which-one-should-i-learn/)
+
+"""
 # # TensorFlow Tutorial #03-C
+
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 import matplotlib.pyplot as plt
-import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage
 start_time_global=get_start_time()
@@ -14,37 +20,25 @@ import numpy as np
 import math
 
 
+# ??keras
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import InputLayer, Input
 from tensorflow.python.keras.layers import Reshape, MaxPooling2D
 from tensorflow.python.keras.layers import Conv2D, Dense, Flatten
 
 
-from mnist import MNIST
-
-is_plot = False
-
-data = MNIST(data_dir="data/MNIST/")
-
-print("Size of:")
-print("- Training-set:\t\t{}".format(data.num_train))
-print("- Validation-set:\t{}".format(data.num_val))
-print("- Test-set:\t\t{}".format(data.num_test))
+from common.mnist_common import get_mnist
+data = get_mnist()
 
 
 img_size = data.img_size  #28
 img_size_flat = data.img_size_flat  #784
 img_shape = data.img_shape  #28, 28
-
 img_shape_full = data.img_shape_full  #28, 28, 1
 num_classes = data.num_classes     #10
 num_channels = data.num_channels   #1
 
-# In[7]: # ### Helper-function for plotting images
-# from common.plot_helper import plot_images
-
-def plot_images(images, cls_true, cls_pred=None, img_shape=(28,28)):
-    pass
+from common.plot_helper import plot_images
 
 
 images = data.x_test[0:9]
@@ -62,20 +56,23 @@ def plot_example_errors(cls_pred):
                 cls_true=cls_true[0:9],
                 cls_pred=cls_pred[0:9])
 
-# In[10]: # ## PrettyTensor API # This is how the Convolutional Neural Network was implemented in Tutorial #03 using the PrettyTensor API. It is shown here for easy comparison to the Keras implementation below.
-if False:
-    x_pretty = pt.wrap(x_image)
+# ??prettytensor
+# if False:
+#     x_pretty = pt.wrap(x_image)
+#
+#     with pt.defaults_scope(activation_fn=tf.nn.relu):
+#         y_pred, loss = x_pretty.\
+#             conv2d(kernel=5, depth=16, name='layer_conv1').\
+#             max_pool(kernel=2, stride=2).\
+#             conv2d(kernel=5, depth=36, name='layer_conv2').\
+#             max_pool(kernel=2, stride=2).\
+#             flatten().\
+#             fully_connected(size=128, name='layer_fc1').\
+#             softmax_classifier(num_classes=num_classes, labels=y_true)
 
-    with pt.defaults_scope(activation_fn=tf.nn.relu):
-        y_pred, loss = x_pretty.            conv2d(kernel=5, depth=16, name='layer_conv1').            max_pool(kernel=2, stride=2).            conv2d(kernel=5, depth=36, name='layer_conv2').            max_pool(kernel=2, stride=2).            flatten().            fully_connected(size=128, name='layer_fc1').            softmax_classifier(num_classes=num_classes, labels=y_true)
 
 
-
-
-
-
-
-# In[11]: # ## Sequential Model # The Keras API has two modes of constructing Neural Networks. The simplest is the Sequential Model which only allows for the layers to be added in sequence.
+# In[11]: # ## Sequential Model
 model = Sequential()
 model.add(InputLayer(input_shape=(img_size_flat,)))  #784
 model.add(Reshape(img_shape_full))    #(28, 28, 1)
@@ -102,17 +99,10 @@ optimizer = Adam(lr=1e-3)
 model.compile(optimizer=optimizer,
               loss='categorical_crossentropy',
               metrics=['accuracy'])
-
-
-# In[14]: # ### Training # Now that the model has been fully defined with loss-function and optimizer, we can train it. This function takes numpy-arrays and performs the given number of training epochs using the given batch-size. An epoch is one full use of the entire training-set. So for 10 epochs we would iterate randomly over the entire training-set 10 times.
-model.fit(x=data.x_train,
-          y=data.y_train,
-          epochs=1, batch_size=128)
-
+model.fit(x=data.x_train, y=data.y_train, epochs=1, batch_size=128) # In[14]: # ### Training # Now that the model has been fully defined with loss-function and optimizer, we can train it. This function takes numpy-arrays and performs the given number of training epochs using the given batch-size. An epoch is one full use of the entire training-set. So for 10 epochs we would iterate randomly over the entire training-set 10 times.
 
 # In[15]: # ### Evaluation # Now that the model has been trained we can test its performance on the test-set. This also uses numpy-arrays as input.
-result = model.evaluate(x=data.x_test,
-                        y=data.y_test)
+result = model.evaluate(x=data.x_test, y=data.y_test)
 for name, value in zip(model.metrics_names, result): # In[16]: # We can print all the performance metrics for the test-set.
     print(name, value)
 print("{0}: {1:.2%}".format(model.metrics_names[1], result[1])) # In[17]: # Or we can just print the classification accuracy.
@@ -141,33 +131,20 @@ plot_example_errors(cls_pred)
 
 
 # In[26]: # ## Functional Model
+
 inputs = Input(shape=(img_size_flat,))
 net = inputs
-
 net = Reshape(img_shape_full)(net)
 net = Conv2D(kernel_size=5, strides=1, filters=16, padding='same',
              activation='relu', name='layer_conv1')(net)
 net = MaxPooling2D(pool_size=2, strides=2)(net)
-
-# Second convolutional layer with ReLU-activation and max-pooling.
 net = Conv2D(kernel_size=5, strides=1, filters=36, padding='same',
-             activation='relu', name='layer_conv2')(net)
+             activation='relu', name='layer_conv2')(net) # Second convolutional layer with ReLU-activation and max-pooling.
 net = MaxPooling2D(pool_size=2, strides=2)(net)
-
-# Flatten the output of the conv-layer from 4-dim to 2-dim.
-net = Flatten()(net)
-
-# First fully-connected / dense layer with ReLU-activation.
-net = Dense(128, activation='relu')(net)
-
-# Last fully-connected / dense layer with softmax-activation # so it can be used for classification.
-net = Dense(num_classes, activation='softmax')(net)
-
-# Output of the Neural Network.
-outputs = net
-
-
-
+net = Flatten()(net) # Flatten the output of the conv-layer from 4-dim to 2-dim.
+net = Dense(128, activation='relu')(net) # First fully-connected / dense layer with ReLU-activation.
+net = Dense(num_classes, activation='softmax')(net) # Last fully-connected / dense layer with softmax-activation # so it can be used for classification.
+outputs = net # Output of the Neural Network.
 
 
 # In[27]: # ### Model Compilation
@@ -176,15 +153,10 @@ model2 = Model(inputs=inputs, outputs=outputs)
 model2.compile(optimizer='rmsprop',
                loss='categorical_crossentropy',
                metrics=['accuracy'])
-
-# Training
-model2.fit(x=data.x_train,
-           y=data.y_train,
-           epochs=1, batch_size=128)
+model2.fit(x=data.x_train, y=data.y_train, epochs=1, batch_size=128) # Training
 
 # In[31]: # ### Evaluation
-result = model2.evaluate(x=data.x_test,
-                         y=data.y_test)
+result = model2.evaluate(x=data.x_test, y=data.y_test)
 
 for name, value in zip(model2.metrics_names, result):
     print(name, value)
@@ -210,11 +182,7 @@ images = data.x_test[0:9]
 cls_true = data.y_test_cls[0:9]
 y_pred = model3.predict(x=images)
 cls_pred = np.argmax(y_pred, axis=1)
-
-# In[46]: # Plot the images with their true and predicted class-numbers.
-plot_images(images=images,
-            cls_pred=cls_pred,
-            cls_true=cls_true)
+plot_images(images=images, cls_pred=cls_pred, cls_true=cls_true)
 
 
 
@@ -242,19 +210,13 @@ def plot_conv_weights(weights, input_channel=0):
 # In[48]: # ### Get Layers # Keras has a simple way of listing the layers in the model.
 model3.summary()
 layer_input = model3.layers[0]
-
-# In[50]: # The first convolutional layer has index 2.
-layer_conv1 = model3.layers[2]
-layer_conv1
-
-# In[51]: # The second convolutional layer has index 4.
-layer_conv2 = model3.layers[4]
+layer_conv1 = model3.layers[2] # In[50]: # The first convolutional layer has index 2.
+layer_conv2 = model3.layers[4] # In[51]: # The second convolutional layer has index 4.
 
 
 
 # In[52]: # ### Convolutional Weights
 weights_conv1 = layer_conv1.get_weights()[0]
-weights_conv1.shape
 plot_conv_weights(weights=weights_conv1, input_channel=0)
 
 weights_conv2 = layer_conv2.get_weights()[0]
@@ -321,6 +283,7 @@ layer_output2.shape   #(1, 14, 14, 36)
 
 plot_conv_output(values=layer_output2)
 
+print_time_usage(start_time_global)
 
 
 

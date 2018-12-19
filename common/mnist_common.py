@@ -1,3 +1,9 @@
+"""
+
+from common.mnist_common import get_mnist
+data = get_mnist()
+
+"""
 # Load Data  In [3]:
 from mnist import MNIST # package: python-mnist
 
@@ -20,3 +26,4 @@ def get_mnist_4_prettyTensor(path="datasets/mnist/"):
     print("- Test-set:\t\t{}".format(len(data.test.labels)))
     print("- Validation-set:\t{}".format(len(data.validation.labels)))
     return data
+

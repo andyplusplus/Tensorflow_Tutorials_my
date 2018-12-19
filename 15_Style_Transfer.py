@@ -467,8 +467,7 @@ def style_transfer(content_image, style_image,
 
     # Close the TensorFlow session to release its resources.
     session.close()
-print_time_usage(start_time_global)
-    
+
     # Return the mixed-image.
     return mixed_image
 
@@ -498,6 +497,7 @@ content_layer_ids = [4]
 # This selects all those layers as the style-layers.
 # This is somewhat slow to optimize.
 style_layer_ids = list(range(13))
+print_time_usage(start_time_global)
 
 # You can also select a sub-set of the layers, e.g. like this:
 # style_layer_ids = [1, 2, 3, 4]

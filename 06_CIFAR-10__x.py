@@ -923,7 +923,7 @@ class_names[5]
 # In[69]:
 # This has been commented out in case you want to modify and experiment
 # with the Notebook without having to restart it.
-# session.close()
+session.close()
 print_time_usage(start_time_global)
 
 # ## Conclusion

@@ -1,5 +1,5 @@
 # # TensorFlow Tutorial #03-B
-# # Layers API
+# # Layers API, is gong to be depreciated in tensorflow 2.0
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -165,6 +165,7 @@ def print_test_accuracy(show_example_errors=False,
                         show_confusion_matrix=False):
     num_test = len(data.test.images)
     cls_pred = np.zeros(shape=num_test, dtype=np.int)
+    i = 0
     while i < num_test:
         j = min(i + test_batch_size, num_test)
         images = data.test.images[i:j, :]

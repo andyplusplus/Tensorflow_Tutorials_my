@@ -87,6 +87,7 @@ cities
 
 # In[9]:
 # get_ipython().run_cell_magic('time', '', 'df = weather.load_resampled_data()')
+df = weather.load_resampled_data()
 
 # These are the top rows of the data-set.
 
