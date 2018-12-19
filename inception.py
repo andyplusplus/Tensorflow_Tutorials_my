@@ -73,7 +73,7 @@ import sys
 data_url = "http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz"
 
 # Directory to store the downloaded data.
-data_dir = "inception/"
+data_dir = "data/inception/"
 
 # File containing the mappings between class-number and uid. (Downloaded)
 path_uid_to_cls = "imagenet_2012_challenge_label_map_proto.pbtxt"

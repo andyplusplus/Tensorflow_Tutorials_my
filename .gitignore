@@ -1,3 +1,6 @@
+# Data Folder not added in to code 
+data/
+
 **/*.pyc
 .idea/*.*
 __pycache__
