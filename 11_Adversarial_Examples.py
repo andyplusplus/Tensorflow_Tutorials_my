@@ -12,7 +12,6 @@ is_plot = False
 import numpy as np
 import os
 import inception  # In[3]:
-tf.__version__
 
 # ## Inception Model
 
