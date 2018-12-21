@@ -1,6 +1,7 @@
 # # TensorFlow Tutorial #04
-# # Save & Restore
+# # Save & Restore    save_dir
 # does not work because prettyTensor
+#
 
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -21,10 +22,6 @@ import os
 # Use PrettyTensor to simplify Neural Network construction.
 import prettytensor as pt
 
-# PrettyTensor version:
-
-# In[4]:
-pt.__version__
 
 from tensorflow.examples.tutorials.mnist import input_data
 data = input_data.read_data_sets('data/MNIST/', one_hot=True)

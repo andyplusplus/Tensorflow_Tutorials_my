@@ -22,7 +22,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
 import matplotlib.pyplot as plt
-import PIL
+from PIL import Image
+
+#import PIL
 import tensorflow as tf
 from common.time_usage import get_start_time
 from common.time_usage import print_time_usage

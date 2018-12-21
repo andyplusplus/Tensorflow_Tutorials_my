@@ -100,7 +100,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
@@ -111,19 +110,15 @@ import gym
 import numpy as np
 import math
 
-# The main source-code for Reinforcement Learning is located in the following module:
 
 # In[2]:
 import reinforcement_learning as rl
 
-# This was developed using Python 3.6.0 (Anaconda) with package versions:
 
 # In[3]:
-# TensorFlow
-tf.__version__
 
-# In[4]:
-# OpenAI Gym
+tf.__version__  # In[4]:
+
 gym.__version__
 
 # ## Game Environment
@@ -133,12 +128,10 @@ gym.__version__
 env_name = 'Breakout-v0'
 # env_name = 'SpaceInvaders-v0'
 
-# This is the base-directory for the TensorFlow checkpoints as well as various log-files.
 
 # In[6]:
 rl.checkpoint_base_dir = 'checkpoints_tutorial16/'
 
-# Once the base-dir has been set, you need to call this function to set all the paths that will be used. This will also create the checkpoint-dir if it does not already exist.
 
 # In[7]:
 rl.update_paths(env_name=env_name)
@@ -155,12 +148,10 @@ agent = rl.Agent(env_name=env_name,
                  render=True,
                  use_logging=False)
 
-# The Neural Network is automatically instantiated by the Agent-class. We will create a direct reference for convenience.
 
 # In[10]:
 model = agent.model
 
-# Similarly, the Agent-class also allocates the replay-memory when `training==True`. The replay-memory will require more than 3 GB of RAM, so it should only be allocated when needed. We will need the replay-memory in this Notebook to record the states and Q-values we observe, so they can be plotted further below.
 
 # In[11]:
 replay_memory = agent.replay_memory
@@ -171,7 +162,6 @@ replay_memory = agent.replay_memory
 # In[12]:
 agent.run(num_episodes=1)
 
-# In training-mode, this function will output a line for each episode. The first counter is for the number of episodes that have been processed. The second counter is for the number of states that have been processed. These two counters are stored in the TensorFlow checkpoint along with the weights of the Neural Network, so you can restart the training e.g. if you only have one computer and need to train during the night.
 # Note that the number of episodes is almost 90k. It is impractical to print that many lines in this Notebook, so the training is better done in a terminal window by running the following commands:
 # ```
 # source activate tf-gpu-gym  # Activate your Python environment with TF and Gym.
@@ -188,7 +178,6 @@ agent.run(num_episodes=1)
 log_q_values = rl.LogQValues()
 log_reward = rl.LogReward()
 
-# We can now read the logs from file:
 
 # In[14]:
 log_q_values.read()
@@ -222,22 +211,18 @@ if is_plot: plt.show()
 # In[17]:
 agent.epsilon_greedy.epsilon_testing
 
-# We will now instruct the agent that it should no longer perform training by setting this boolean:
 
 # In[18]:
 agent.training = False
 
-# We also reset the previous episode rewards.
 
 # In[19]:
 agent.reset_episode_rewards()
 
-# We can render the game-environment to screen so we can see the agent playing the game, by setting this boolean:
 
 # In[20]:
 agent.render = True
 
-# We can now run a single episode by calling the `run()` function again. This should open a new window that shows the game being played by the agent. At the time of this writing, it was not possible to resize this tiny window, and the developers at OpenAI did not seem to care about this feature which should obviously be there.
 
 # In[21]:
 agent.run(num_episodes=1)
@@ -251,17 +236,14 @@ agent.run(num_episodes=1)
 # In[22]:
 agent.reset_episode_rewards()
 
-# We disable the screen-rendering so the game-environment runs much faster.
 
 # In[23]:
 agent.render = False
 
-# We can now run 30 episodes. This records the rewards for each episode. It might have been a good idea to disable the output so it does not print all these lines - you can do this as an exercise.
 
 # In[24]:
 agent.run(num_episodes=30)
 
-# We can now print some statistics for the episode rewards, which vary greatly from one episode to the next.
 
 # In[25]:
 rewards = agent.episode_rewards
@@ -271,7 +253,6 @@ print("- Mean:  ", np.mean(rewards))
 print("- Max:   ", np.max(rewards))
 print("- Stdev: ", np.std(rewards))
 
-# We can also plot a histogram with the episode rewards.
 
 # In[26]:
 _ = plt.hist(rewards, bins=30)
@@ -308,7 +289,6 @@ def print_q_values(idx):
     # Newline.
     print()
 
-# This helper-function plots a state from the replay-memory and optionally prints the Q-values.
 
 # In[28]:
 def plot_state(idx, print_q=True):
@@ -337,18 +317,15 @@ def plot_state(idx, print_q=True):
     if print_q:
         print_q_values(idx=idx)
 
-# The replay-memory has room for 200k states but it is only partially full from the above call to `agent.run(num_episodes=1)`. This is how many states are actually used.
 
 # In[29]:
 num_used = replay_memory.num_used
 num_used
 
-# Get the Q-values from the replay-memory that are actually used.
 
 # In[30]:
 q_values = replay_memory.q_values[0:num_used, :]
 
-# For each state, calculate the min / max Q-values and their difference. This will be used to lookup interesting states in the following sections.
 
 # In[31]:
 q_values_min = q_values.min(axis=1)
@@ -363,7 +340,6 @@ q_values_dif = q_values_max - q_values_min
 idx = np.argmax(replay_memory.rewards)
 idx
 
-# This state is where the ball hits the wall so the agent scores a point. 
 # We can show the surrounding states leading up to and following this state. Note how the Q-values are very close for the different actions, because at this point it really does not matter what the agent does as the reward is already guaranteed. But note how the Q-values decrease significantly after the ball has hit the wall and a point has been scored.
 # Also note that the agent uses the Epsilon-greedy policy for taking actions, so there is a small probability that a random action is taken instead of the action with the highest Q-value.
 
@@ -376,9 +352,7 @@ for i in range(-5, 3):
 
 # In[34]:
 idx = np.argmax(q_values_max)
-idx
-
-# In[35]:
+idx  # In[35]:
 for i in range(0, 5):
     plot_state(idx=idx+i)
 
@@ -387,9 +361,7 @@ for i in range(0, 5):
 
 # In[36]:
 idx = np.argmax(replay_memory.end_life)
-idx
-
-# In[37]:
+idx  # In[37]:
 for i in range(-10, 0):
     plot_state(idx=idx+i)
 
@@ -398,9 +370,7 @@ for i in range(-10, 0):
 
 # In[38]:
 idx = np.argmax(q_values_dif)
-idx
-
-# In[39]:
+idx  # In[39]:
 for i in range(0, 5):
     plot_state(idx=idx+i)
 
@@ -410,9 +380,7 @@ for i in range(0, 5):
 
 # In[40]:
 idx = np.argmin(q_values_dif)
-idx
-
-# In[41]:
+idx  # In[41]:
 for i in range(0, 5):
     plot_state(idx=idx+i)
 
@@ -585,7 +553,6 @@ def plot_conv_weights(model, layer_name, input_channel=0):
 # In[48]:
 plot_conv_weights(model=model, layer_name='layer_conv1', input_channel=0)
 
-# We can also plot the convolutional weights for the second input channel, that is, the motion-trace of the game-environment. Once again we see that the negative weights (blue) have a much greater magnitude than the positive weights (red).
 
 # In[49]:
 plot_conv_weights(model=model, layer_name='layer_conv1', input_channel=1)

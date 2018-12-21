@@ -18,7 +18,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
@@ -27,7 +26,6 @@ start_time_global=get_start_time()
 is_plot = False
 import numpy as np
 
-# This was developed using Python 3.6 (Anaconda) and TensorFlow version:
 
 # In[2]:
 tf.__version__
@@ -40,7 +38,6 @@ tf.__version__
 from mnist import MNIST
 data = MNIST(data_dir="data/MNIST/")
 
-# The MNIST data-set has now been loaded and consists of 70.000 images and class-numbers for the images. The data-set is split into 3 mutually exclusive sub-sets. We will only use the training and test-sets in this tutorial.
 
 # In[4]:
 print("Size of:")
@@ -48,10 +45,9 @@ print("- Training-set:\t\t{}".format(data.num_train))
 print("- Validation-set:\t{}".format(data.num_val))
 print("- Test-set:\t\t{}".format(data.num_test))
 
-# Copy some of the data-dimensions for convenience.
 
 # In[5]:
-# The number of pixels in each dimension of an image.
+
 img_size = data.img_size
 
 # The images are stored in one-dimensional arrays of this length.
@@ -102,7 +98,7 @@ def plot_images(images, cls_true, cls_pred=None):
 # ### Plot a few images to see if data is correct
 
 # In[7]:
-# Get the first images from the test-set.
+
 images = data.x_test[0:9]
 
 # Get the true classes for those images.
@@ -124,17 +120,14 @@ train_input_fn = tf.estimator.inputs.numpy_input_fn(
     num_epochs=None,
     shuffle=True)
 
-# This actually returns a function:
 
 # In[9]:
 train_input_fn
 
-# Calling this function returns a tuple with TensorFlow ops for returning the input and output data:
 
 # In[10]:
 train_input_fn()
 
-# Similarly we need to create a function for reading the data for the test-set. Note that we only want to process these images once so `num_epochs=1` and we do not want the images shuffled so `shuffle=False`.
 
 # In[11]:
 test_input_fn = tf.estimator.inputs.numpy_input_fn(
@@ -143,18 +136,14 @@ test_input_fn = tf.estimator.inputs.numpy_input_fn(
     num_epochs=1,
     shuffle=False)
 
-# An input-function is also needed for predicting the class of new data. As an example we just use a few images from the test-set.
 
 # In[12]:
-some_images = data.x_test[0:9]
-
-# In[13]:
+some_images = data.x_test[0:9]  # In[13]:
 predict_input_fn = tf.estimator.inputs.numpy_input_fn(
     x={"x": some_images},
     num_epochs=1,
     shuffle=False)
 
-# The class-numbers are actually not used in the input-function as it is not needed for prediction. However, the true class-number is needed when we plot the images further below.
 
 # In[14]:
 some_images_cls = data.y_test_cls[0:9]
@@ -165,17 +154,14 @@ some_images_cls = data.y_test_cls[0:9]
 # In[15]:
 feature_x = tf.feature_column.numeric_column("x", shape=img_shape)
 
-# You can have several input features which would then be combined in a list:
 
 # In[16]:
 feature_columns = [feature_x]
 
-# In this example we want to use a 3-layer DNN with 512, 256 and 128 units respectively.
 
 # In[17]:
 num_hidden_units = [512, 256, 128]
 
-# The `DNNClassifier` then constructs the neural network for us. We can also specify the activation function and various other parameters (see the docs). Here we just specify the number of classes and the directory where the checkpoints will be saved.
 
 # In[18]:
 model = tf.estimator.DNNClassifier(feature_columns=feature_columns,
@@ -195,12 +181,8 @@ model.train(input_fn=train_input_fn, steps=2000)
 # Once the model has been trained, we can evaluate its performance on the test-set.
 
 # In[20]:
-result = model.evaluate(input_fn=test_input_fn)
-
-# In[21]:
-result
-
-# In[22]:
+result = model.evaluate(input_fn=test_input_fn)  # In[21]:
+result  # In[22]:
 print("Classification accuracy: {0:.2%}".format(result["accuracy"]))
 
 # ### Predictions
@@ -209,16 +191,10 @@ print("Classification accuracy: {0:.2%}".format(result["accuracy"]))
 # It is unclear why the Estimator is designed this way, possibly because it will always use the latest checkpoint and it can also be distributed easily for use on multiple computers.
 
 # In[23]:
-predictions = model.predict(input_fn=predict_input_fn)
-
-# In[24]:
-cls = [p['classes'] for p in predictions]
-
-# In[25]:
+predictions = model.predict(input_fn=predict_input_fn)  # In[24]:
+cls = [p['classes'] for p in predictions]  # In[25]:
 cls_pred = np.array(cls, dtype='int').squeeze()
-cls_pred
-
-# In[26]:
+cls_pred  # In[26]:
 plot_images(images=some_images,
             cls_true=some_images_cls,
             cls_pred=cls_pred)
@@ -337,7 +313,6 @@ def model_fn(features, labels, mode, params):
 # In[28]:
 params = {"learning_rate": 1e-4}
 
-# We can then create an instance of the new Estimator.
 # Note that we don't provide feature-columns here as it is inferred automatically from the data-functions when `model_fn()` is called.
 # It is unclear from the TensorFlow documentation why it is necessary to specify the feature-columns when using `DNNClassifier` in the example above, when it is not needed here.
 
@@ -356,25 +331,17 @@ model.train(input_fn=train_input_fn, steps=2000)
 # Once the model has been trained, we can evaluate its performance on the test-set.
 
 # In[31]:
-result = model.evaluate(input_fn=test_input_fn)
-
-# In[32]:
-result
-
-# In[33]:
+result = model.evaluate(input_fn=test_input_fn)  # In[32]:
+result  # In[33]:
 print("Classification accuracy: {0:.2%}".format(result["accuracy"]))
 
 # ### Predictions
 # The model can also be used to make predictions on new data.
 
 # In[34]:
-predictions = model.predict(input_fn=predict_input_fn)
-
-# In[35]:
+predictions = model.predict(input_fn=predict_input_fn)  # In[35]:
 cls_pred = np.array(list(predictions))
-cls_pred
-
-# In[36]:
+cls_pred  # In[36]:
 plot_images(images=some_images,
             cls_true=some_images_cls,
             cls_pred=cls_pred)

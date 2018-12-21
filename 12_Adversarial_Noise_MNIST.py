@@ -26,7 +26,6 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from common.time_usage import get_start_time
@@ -39,7 +38,6 @@ import time
 from datetime import timedelta
 import math
 
-# This was developed using Python 3.6 (Anaconda) and TensorFlow version:
 
 # In[2]:
 tf.__version__
@@ -52,7 +50,6 @@ tf.__version__
 from mnist import MNIST
 data = MNIST(data_dir="data/MNIST/")
 
-# The MNIST data-set has now been loaded and consists of 70.000 images and class-numbers for the images. The data-set is split into 3 mutually exclusive sub-sets. We will only use the training and test-sets in this tutorial.
 
 # In[4]:
 print("Size of:")
@@ -60,10 +57,9 @@ print("- Training-set:\t\t{}".format(data.num_train))
 print("- Validation-set:\t{}".format(data.num_val))
 print("- Test-set:\t\t{}".format(data.num_test))
 
-# Copy some of the data-dimensions for convenience.
 
 # In[5]:
-# The number of pixels in each dimension of an image.
+
 img_size = data.img_size
 
 # The images are stored in one-dimensional arrays of this length.
@@ -124,7 +120,7 @@ def plot_images(images, cls_true, cls_pred=None, noise=0.0):
 # ### Plot a few images to see if data is correct
 
 # In[7]:
-# Get the first images from the test-set.
+
 images = data.x_test[0:9]
 
 # Get the true classes for those images.
@@ -146,17 +142,14 @@ plot_images(images=images, cls_true=cls_true)
 # In[8]:
 x = tf.placeholder(tf.float32, shape=[None, img_size_flat], name='x')
 
-# The convolutional layers expect `x` to be encoded as a 4-dim tensor so we have to reshape it so its shape is instead `[num_images, img_height, img_width, num_channels]`. Note that `img_height == img_width == img_size` and `num_images` can be inferred automatically by using -1 for the size of the first dimension. So the reshape operation is:
 
 # In[9]:
 x_image = tf.reshape(x, [-1, img_size, img_size, num_channels])
 
-# Next we have the placeholder variable for the true labels associated with the images that were input in the placeholder variable `x`. The shape of this placeholder variable is `[None, num_classes]` which means it may hold an arbitrary number of labels and each label is a vector of length `num_classes` which is 10 in this case.
 
 # In[10]:
 y_true = tf.placeholder(tf.float32, shape=[None, num_classes], name='y_true')
 
-# We could also have a placeholder variable for the class-number, but we will instead calculate it using argmax. Note that this is a TensorFlow operator so nothing is calculated at this point.
 
 # In[11]:
 y_true_cls = tf.argmax(y_true, axis=1)
@@ -169,31 +162,26 @@ y_true_cls = tf.argmax(y_true, axis=1)
 # In[12]:
 noise_limit = 0.35
 
-# The optimizer for the adversarial noise will try and minimize two loss-measures: (1) The normal loss-measure for the neural network, so we will find the noise that gives the best classification accuracy for the adversarial target-class; and (2) the so-called L2-loss-measure which tries to keep the noise as low as possible.
 # The following weight determines how important the L2-loss is compared to the normal loss-measure. An L2-weight close to zero usually works best.
 
 # In[13]:
 noise_l2_weight = 0.02
 
-# When we create the new variable for the noise, we must inform TensorFlow which variable-collections that it belongs to, so we can later inform the two optimizers which variables to update.
 # First we define a name for our new variable-collection. This is just a string.
 
 # In[14]:
 ADVERSARY_VARIABLES = 'adversary_variables'
 
-# Then we create a list of the collections that we want the new noise-variable to belong to. If we add the noise-variable to the collection `tf.GraphKeys.VARIABLES` then it will also get initialized with all the other variables in the TensorFlow graph, but it will not get optimized. This is a bit confusing.
 
 # In[15]:
 collections = [tf.GraphKeys.GLOBAL_VARIABLES, ADVERSARY_VARIABLES]
 
-# Now we can create the new variable for the adversarial noise. It will be initialized to zero. It will not be trainable, so it will not be optimized along with the other variables of the neural network. This allows us to create two separate optimization procedures.
 
 # In[16]:
 x_noise = tf.Variable(tf.zeros([img_size, img_size, num_channels]),
                       name='x_noise', trainable=False,
                       collections=collections)
 
-# The adversarial noise will be limited / clipped to the given 
 # &plusmn; noise-limit that we set above. Note that this is actually not executed at this point in the computational graph, but will instead be executed after the optimization-step, see further below.
 
 # In[17]:
@@ -201,12 +189,10 @@ x_noise_clip = tf.assign(x_noise, tf.clip_by_value(x_noise,
                                                    -noise_limit,
                                                    noise_limit))
 
-# The noisy image is just the sum of the input image and the adversarial noise.
 
 # In[18]:
 x_noisy_image = x_image + x_noise
 
-# When adding the noise to the input image, it may overflow the boundaries for a valid image, so we clip / limit the noisy image to ensure its pixel-values are between 0 and 1.
 
 # In[19]:
 x_noisy_image = tf.clip_by_value(x_noisy_image, 0.0, 1.0)
@@ -216,7 +202,7 @@ x_noisy_image = tf.clip_by_value(x_noisy_image, 0.0, 1.0)
 # We will use the Layers API to construct the convolutional neural network, see Tutorial #03-B.
 
 # In[20]:
-# Start the network with the noisy input image.
+
 net = x_noisy_image
 
 # 1st convolutional layer.
@@ -259,7 +245,6 @@ loss = tf.reduce_mean(cross_entropy)
 # In[21]:
 [var.name for var in tf.trainable_variables()]
 
-# Optimization of these variables in the neural network is done with the Adam-optimizer using the loss-measure that was returned from PrettyTensor when we constructed the neural network above.
 # Note that optimization is not performed at this point. In fact, nothing is calculated at all, we just add the optimizer-object to the TensorFlow graph for later execution.
 
 # In[22]:
@@ -272,28 +257,23 @@ optimizer = tf.train.AdamOptimizer(learning_rate=1e-4).minimize(loss)
 # In[23]:
 adversary_variables = tf.get_collection(ADVERSARY_VARIABLES)
 
-# Show the list of variable-names. There is only one, which is the adversarial noise variable that we created above.
 
 # In[24]:
 [var.name for var in adversary_variables]
 
-# We will combine the loss-function for the normal optimization with a so-called L2-loss for the noise-variable. This should result in the minimum values for the adversarial noise along with the best classification accuracy.
 # The L2-loss is scaled by a weight that is typically set close to zero.
 
 # In[25]:
 l2_loss_noise = noise_l2_weight * tf.nn.l2_loss(x_noise)
 
-# Combine the normal loss-function with the L2-loss for the adversarial noise.
 
 # In[26]:
 loss_adversary = loss + l2_loss_noise
 
-# We can now create the optimizer for the adversarial noise. Because this optimizer is not supposed to update all the variables of the neural network, we must give it a list of the variables that we want updated, which is the variable for the adversarial noise. Also note the learning-rate is much greater than for the normal optimizer above.
 
 # In[27]:
 optimizer_adversary = tf.train.AdamOptimizer(learning_rate=1e-2).minimize(loss_adversary, var_list=adversary_variables)
 
-# We have now created two optimizers for the neural network, one for the variables of the neural network and another for the single variable with the adversarial noise.
 
 # ### Performance Measures
 # We need a few more operations in the TensorFlow graph which will make it easier for us to display the progress to the user during optimization.
@@ -302,12 +282,10 @@ optimizer_adversary = tf.train.AdamOptimizer(learning_rate=1e-2).minimize(loss_a
 # In[28]:
 y_pred_cls = tf.argmax(y_pred, axis=1)
 
-# Then we create a vector of booleans telling us whether the predicted class equals the true class of each image.
 
 # In[29]:
 correct_prediction = tf.equal(y_pred_cls, y_true_cls)
 
-# The classification accuracy is calculated by first type-casting the vector of booleans to floats, so that False becomes 0 and True becomes 1, and then taking the average of these numbers.
 
 # In[30]:
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
@@ -326,13 +304,11 @@ session = tf.Session()
 # In[32]:
 session.run(tf.global_variables_initializer())
 
-# This is a helper-function for initializing / resetting the adversarial noise to zero.
 
 # In[33]:
 def init_noise():
     session.run(tf.variables_initializer([x_noise]))
 
-# Call the function to initialize the adversarial noise.
 
 # In[34]:
 init_noise()
@@ -345,7 +321,6 @@ init_noise()
 # In[35]:
 train_batch_size = 64
 
-# Below is the function for performing a number of optimization iterations so as to gradually improve the variables of the neural network. In each iteration, a new batch of data is selected from the training-set and then TensorFlow executes the optimizer using those training samples. The progress is printed every 100 iterations.
 # This function is similar to the previous tutorials, except that it now takes an argument for the adversarial target-class. When this target-class is set to an integer, it will be used instead of the true class-number for the training-data. The adversarial optimizer is also used instead of the normal optimizer, and after each step of the adversarial optimizer, the noise will be limited / clipped to the allowed range. This optimizes the adversarial noise and ignores the other variables of the neural network.
 
 # In[36]:
@@ -427,7 +402,6 @@ def get_noise():
 
     return np.squeeze(noise)
 
-# This function plots the adversarial noise and prints some statistics.
 
 # In[38]:
 def plot_noise():
@@ -506,7 +480,7 @@ def plot_confusion_matrix(cls_pred):
 # Note that this function can use a lot of computer memory, which is why the test-set is split into smaller batches. If you have little RAM in your computer and it crashes, then you can try and lower the batch-size.
 
 # In[41]:
-# Split the test-set into smaller batches of this size.
+
 test_batch_size = 256
 
 def print_test_accuracy(show_example_errors=False,
@@ -582,7 +556,6 @@ def print_test_accuracy(show_example_errors=False,
 # In[42]:
 optimize(num_iterations=1000)
 
-# The classification accuracy is now about 96-97% on the test-set. (This will vary each time you run this Python Notebook).
 
 # In[43]:
 print_test_accuracy(show_example_errors=True)
@@ -594,17 +567,14 @@ print_test_accuracy(show_example_errors=True)
 # In[44]:
 init_noise()
 
-# Now perform optimization of the adversarial noise. This uses the adversarial optimizer instead of the normal optimizer, which means that it only optimizes the variable for the adversarial noise, while ignoring all the other variables of the neural network.
 
 # In[45]:
 optimize(num_iterations=1000, adversary_target_cls=3)
 
-# The adversarial noise has now been optimized and it can be shown in a plot. The red pixels show positive noise-values and the blue pixels show negative noise-values. This noise-pattern is added to every input image. The positive (red) noise-values makes the pixels darker and the negative (blue) noise-values makes the pixels brighter. Examples of this are shown below.
 
 # In[46]:
 plot_noise()
 
-# When this noise is added to all the images in the test-set, the result is typically a classification accuracy of 10-15% depending on the target-class that was chosen. We can also see from the confusion matrix that most images in the test-set are now classified as the desired target-class - although some of the target-classes require more adversarial noise than others.
 # So we have found adversarial noise that makes the neural network mis-classify almost all images in the test-set as our desired target-class.
 # We can also show some examples of mis-classified images with the adversarial noise. The noise is clearly visible but the digits are still easily identified by the human eye.
 
@@ -641,9 +611,7 @@ def find_all_noise(num_iterations=1000):
         # Print newline.
         print()
     
-    return all_noise
-
-# In[49]:
+    return all_noise  # In[49]:
 all_noise = find_all_noise(num_iterations=300)
 
 # ### Plot the adversarial noise for all target-classes
@@ -675,12 +643,9 @@ def plot_all_noise(all_noise):
     
     # Ensure the plot is shown correctly with multiple plots
     # in a single Notebook cell.
-    if is_plot: plt.show()
-
-# In[51]:
+    if is_plot: plt.show()  # In[51]:
 plot_all_noise(all_noise)
 
-# Red pixels show positive noise values, and blue pixels show negative noise values.
 # In some of these noise-images you can see traces of the numbers. For example, the noise for target-class 0 shows a red circle surrounded by blue. This means that a little noise will be added to the input image in the shape of a circle, and it will dampen the other pixels. This is sufficient for most input images in the MNIST data-set to be mis-classified as a 0. Another example is the noise for 3 which also shows traces of the number 3 with red pixels. But the noise for the other classes is less obvious.
 
 # ## Immunity to adversarial noise
@@ -733,7 +698,6 @@ def make_immune(target_cls, num_iterations_adversary=500,
 # In[53]:
 make_immune(target_cls=3)
 
-# Now try and run it again. It is now more difficult to find adversarial noise for the target-class 3. The neural network seems to have become somewhat immune to adversarial noise.
 
 # In[54]:
 make_immune(target_cls=3)
@@ -771,7 +735,6 @@ for i in range(10):
 # In[57]:
 plot_noise()
 
-# Interestingly, the neural network now has a higher classification accuracy on noisy images than we had on clean images before all these optimizations.
 
 # In[58]:
 print_test_accuracy(show_example_errors=True,
@@ -783,7 +746,6 @@ print_test_accuracy(show_example_errors=True,
 # In[59]:
 init_noise()
 
-# The neural network now performs worse on clean images compared to noisy images.
 
 # In[60]:
 print_test_accuracy(show_example_errors=True,
@@ -794,7 +756,7 @@ print_test_accuracy(show_example_errors=True,
 # We are now done using TensorFlow, so we close the session to release its resources.
 
 # In[61]:
-# This has been commented out in case you want to modify and experiment
+
 # with the Notebook without having to restart it.
 # session.close()
 print_time_usage(start_time_global)
